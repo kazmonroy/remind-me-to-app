@@ -1,2 +1,2 @@
-# remind-me-to-app
-Remind Me To Do List App
+# ToDo App
+ToDo App with factory functions and modules
