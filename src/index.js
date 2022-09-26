@@ -1,12 +1,66 @@
 import "./assets/style.css";
 
+const Todo = ((text) => {
+  
+    return text
+
+})
+
+
 const todoListApp = (function () {
     // propertiers
     const _form = document.querySelector("form");
     const _todoList = document.querySelector(".todo-list");
     const _todoInput = document.querySelector('input[name="todo"]');
     const _todosContainer = document.querySelector(".todos-container");
-  
+
+    // Display Todo
+
+    const displayTodos = () => {
+        const storedTodos = [
+            {
+                name: 'Study'
+            },
+
+            {
+                name: 'Be awesome'
+            }
+        ]
+
+        const todos = storedTodos
+
+        todos.forEach(todo => {
+            _displayTodosUI(todo)
+
+        })
+       
+    }
+
+    const _displayTodosUI = (todo) => {
+        const newTodo = document.createElement("li");
+            newTodo.classList.add("todo");
+        
+            const todoText = document.createElement("p");
+            todoText.textContent = todo.name;
+            todoText.classList.add("todo-text");
+        
+            const removeBtn = document.createElement("button");
+            removeBtn.classList.add("remove-btn");
+            removeBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        
+            const editBtn = document.createElement("button");
+            editBtn.classList.add("edit-btn");
+            editBtn.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+        
+            newTodo.appendChild(todoText);
+            newTodo.appendChild(removeBtn);
+            newTodo.appendChild(editBtn);
+            
+
+            return _todoList.appendChild(newTodo)
+
+    }
+
     // Create & add todo
   
     const _getTodoValue = () => {
@@ -41,21 +95,21 @@ const todoListApp = (function () {
       newTodo.appendChild(removeBtn);
       newTodo.appendChild(editBtn);
   
-      return newTodo;
+      return _todoList.appendChild(newTodo)
     };
   
-    const _appendTodo = (_todoInput, _todoList) => {
+    const _appendTodoUI = (_todoInput) => {
       if (_todoInput.value == "") {
         return false;
       } else {
-        _todoList.appendChild(_createNewTodo());
+        _createNewTodo()
       }
     };
   
     const _submitTodo = (e) => {
       e.preventDefault();
   
-      return _appendTodo(_todoInput, _todoList);
+      return _appendTodoUI(_todoInput);
     };
   
     // Remove todo
@@ -95,10 +149,12 @@ const todoListApp = (function () {
       _form.addEventListener("submit", _submitTodo);
     };
   
-    return { start, buttonsEvents };
+    return { start, buttonsEvents, displayTodos };
   })();
   
   todoListApp.start();
+  todoListApp.displayTodos()
   todoListApp.buttonsEvents();
+
   
 
