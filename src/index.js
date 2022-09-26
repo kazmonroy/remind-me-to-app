@@ -2,7 +2,6 @@ import "./assets/style.css";
 
 const Todo = ((text) => {
     const name = text
-  
     return {name}
 
 })
@@ -15,7 +14,7 @@ const todoListApp = (function () {
     const _todoInput = document.querySelector('input[name="todo"]');
     const _todosContainer = document.querySelector(".todos-container");
 
-    // Local Storage
+    // Manage Local Storage
 
     const _todosLocalStorage = (() => {
         const getLocalTodos = () => {
@@ -41,9 +40,7 @@ const todoListApp = (function () {
             const todos = getLocalTodos()
 
             todos.forEach((todo, index) => {
-   
                 if(todo.name === todoText) {
-                
                     todos.splice(index, 1)
                 }
             })
@@ -55,26 +52,10 @@ const todoListApp = (function () {
         return {getLocalTodos, addLocalTodo, removeLocalTodo}
     })()
 
-
-
-
     // Display Todos in UI
 
-    const displayTodos = () => {
+    const _displayTodos = () => {
         const storedTodos = _todosLocalStorage.getLocalTodos()
-        
-        // [
-        //     {
-        //         name: 'Study'
-        //     },
-
-        //     {
-        //         name: 'Be awesome'
-        //     },
-        //     {
-        //         name: 'Watch supernatural'
-        //     }
-        // ]
 
         const todos = storedTodos
 
@@ -170,9 +151,6 @@ const todoListApp = (function () {
         e.target.parentNode.remove()
 
         _todosLocalStorage.removeLocalTodo(todoText)
-
-
-  
       }
     };
   
@@ -185,16 +163,20 @@ const todoListApp = (function () {
         _todoInput.toggleAttribute("contenteditable");
         _todoInput.classList.toggle("edit");
       }
+
+      _todoInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+   
+        _todoInput.toggleAttribute("contenteditable");
+        _todoInput.classList.toggle("edit");
+
+        }
+      });
   
-      //   // _todoInput.addEventListener("keypress", (e) => {
-      //   //   if (e.key === "Enter") {
-      //   //     _todoInput.setAttribute("contenteditable", false);
-      //   //     _todoInput.classList.remove("edit");
-      //   //   }
-      //   // });
+      
     };
   
-    const buttonsEvents = () => {
+    const _buttonsEvents = () => {
       _todosContainer.addEventListener("click", (e) => {
         _removeTodo(e);
         _editTodo(e);
@@ -203,14 +185,15 @@ const todoListApp = (function () {
   
     const start = () => {
       _form.addEventListener("submit", _submitTodo);
+      _displayTodos()
+      _buttonsEvents();
     };
   
-    return { start, buttonsEvents, displayTodos };
+    return { start };
   })();
   
   todoListApp.start();
-  todoListApp.displayTodos()
-  todoListApp.buttonsEvents();
+  
 
   
 
