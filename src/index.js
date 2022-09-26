@@ -1,8 +1,9 @@
 import "./assets/style.css";
 
 const Todo = ((text) => {
+    const name = text
   
-    return text
+    return {name}
 
 })
 
@@ -14,29 +15,77 @@ const todoListApp = (function () {
     const _todoInput = document.querySelector('input[name="todo"]');
     const _todosContainer = document.querySelector(".todos-container");
 
-    // Display Todo
+    // Local Storage
+
+    const _todosLocalStorage = (() => {
+        const getLocalTodos = () => {
+            let todos 
+
+            if(localStorage.getItem('todos') === null) {
+                todos = []
+            } else {
+                todos = JSON.parse(localStorage.getItem('todos'))
+            }
+
+            return todos
+        }
+
+        const addLocalTodo = (todo) => {
+            const todos = getLocalTodos()
+            todos.push(todo)
+
+            return localStorage.setItem('todos', JSON.stringify(todos))
+        }
+
+        const removeLocalTodo = (todoText) => {
+            const todos = getLocalTodos()
+
+            todos.forEach((todo, index) => {
+   
+                if(todo.name === todoText) {
+                
+                    todos.splice(index, 1)
+                }
+            })
+
+           return localStorage.setItem('todos',JSON.stringify(todos) )
+
+        }
+
+        return {getLocalTodos, addLocalTodo, removeLocalTodo}
+    })()
+
+
+
+
+    // Display Todos in UI
 
     const displayTodos = () => {
-        const storedTodos = [
-            {
-                name: 'Study'
-            },
+        const storedTodos = _todosLocalStorage.getLocalTodos()
+        
+        // [
+        //     {
+        //         name: 'Study'
+        //     },
 
-            {
-                name: 'Be awesome'
-            }
-        ]
+        //     {
+        //         name: 'Be awesome'
+        //     },
+        //     {
+        //         name: 'Watch supernatural'
+        //     }
+        // ]
 
         const todos = storedTodos
 
         todos.forEach(todo => {
-            _displayTodosUI(todo)
+            _addStoredTodosUI(todo)
 
         })
        
     }
 
-    const _displayTodosUI = (todo) => {
+    const _addStoredTodosUI = (todo) => {
         const newTodo = document.createElement("li");
             newTodo.classList.add("todo");
         
@@ -68,10 +117,11 @@ const todoListApp = (function () {
         console.log("empty");
         return false;
       } else {
-        const todo = _todoInput.value;
+        const todo = Todo(_todoInput.value);
         _todoInput.value = "";
+        _todosLocalStorage.addLocalTodo(todo)
   
-        return todo;
+        return todo.name;
       }
     };
   
@@ -98,7 +148,7 @@ const todoListApp = (function () {
       return _todoList.appendChild(newTodo)
     };
   
-    const _appendTodoUI = (_todoInput) => {
+    const _appendNewTodoUI = (_todoInput) => {
       if (_todoInput.value == "") {
         return false;
       } else {
@@ -109,14 +159,20 @@ const todoListApp = (function () {
     const _submitTodo = (e) => {
       e.preventDefault();
   
-      return _appendTodoUI(_todoInput);
+      return _appendNewTodoUI(_todoInput);
     };
   
     // Remove todo
   
     const _removeTodo = (e) => {
+        const todoText = e.target.parentNode.firstChild.textContent;
       if (e.target.classList.contains("remove-btn")) {
-        e.target.parentNode.remove();
+        e.target.parentNode.remove()
+
+        _todosLocalStorage.removeLocalTodo(todoText)
+
+
+  
       }
     };
   
