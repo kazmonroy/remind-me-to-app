@@ -23,15 +23,12 @@ body {
     grid-template-areas:
         "header header"
         "nav wrapper"
-
-
 }
 
 header {
     grid-area: header;
     background-color: var(--main);
     color: white;
-
 }
 
 .header-links {
@@ -48,8 +45,6 @@ header {
     border-radius: 5px;
     margin-right: 5px;
     display: inline-block;
-
-
 }
 
 .burger-menu {
@@ -72,15 +67,9 @@ header {
 
 }
 
-
-
 .hd-link:hover {
     background-color: rgba(186, 31, 14, 0.5);
 }
-
-
-
-
 
 nav {
     grid-area: nav;
@@ -134,9 +123,6 @@ nav>* {
     background-color: var(--nav-bg-hover);
 }
 
-
-
-
 .wrapper {
     margin: 20px 20px;
     padding: 0px 50px;
@@ -154,14 +140,14 @@ nav>* {
     transform: translateX(-250px);
 }
 
-
+.todo-form {
+    margin: 20px 0px;
+}
 
 form {
-
     min-height: 20px;
     display: flex;
     align-items: center;
-
 }
 
 form>* {
@@ -173,7 +159,8 @@ input {
     font-size: 1.5rem;
     min-width: 200px;
     font-family: inherit;
-    padding: 10px 0px
+    padding: 10px 0px;
+    cursor: pointer;
 }
 
 input::placeholder {
@@ -185,21 +172,17 @@ input:focus {
 
 }
 
-
 .submit-todo-btn {
     cursor: pointer;
     border: none;
     padding: 5px;
     background-color: white;
-
-
 }
 
 .submit-todo-btn:hover {
     background-color: var(--nav-bg-hover);
     border-radius: 50%;
 }
-
 
 .fa-solid {
     font-size: 1.5rem;
@@ -210,12 +193,10 @@ input:focus {
     color: var(--main);
 }
 
-
-
 /* Todo section */
 
 .todos-container {
-    margin-top: 30px;
+    /* margin-top: 20px; */
 }
 
 .todo-list,
