@@ -19,6 +19,7 @@ const todoListApp = (function () {
   const _todosContainer = document.querySelector(".todos-container");
   const _menuBtn = document.querySelector(".burger-menu");
   const _navBar = document.querySelector("nav");
+  const _navLinks = document.querySelector(".nav-links");
   const _wrapper = document.querySelector(".wrapper");
 
   // Display Todos in UI
@@ -137,10 +138,8 @@ const todoListApp = (function () {
 
     _menuBtn.addEventListener("click", () => {
       _navBar.classList.toggle("collapse");
+      _navLinks.classList.toggle("collapse");
       _wrapper.classList.toggle("collapse");
-
-      _navBar.classList.toggle("open");
-      _wrapper.classList.toggle("open");
     });
   };
 

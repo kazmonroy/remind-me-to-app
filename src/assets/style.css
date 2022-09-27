@@ -80,9 +80,7 @@ header {
 
 nav {
     grid-area: nav;
-    /* max-width: 250px; */
     height: 100vh;
-
     background-color: var(--nav-bg);
     font-size: .9rem;
 
@@ -93,10 +91,6 @@ nav.collapse {
     transform: translateX(-250px);
 }
 
-
-nav.collapse {
-    left: 0px;
-}
 
 nav>* {
     cursor: pointer;
@@ -278,8 +272,6 @@ input:focus {
 
     }
 
-
-
     }
 
 
@@ -301,28 +293,35 @@ input:focus {
 
 
     nav {
-        max-height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center; 
-
+        position: absolute;
+        width: 100%;
+        top: 45px;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .3);
+        transform: translateX(-500px);
+    }
+    
+    nav.collapse {
+        transform: translateX(0px);
+        z-index: 1;
     }
 
     .nav-links {
+        background-color: var(--nav-bg);
         margin: 0px;
-        display: flex;
-        min-width: 100vw;
-        align-items: center;
-        justify-content: center;
-    }
+        padding: 25px 0px 0px 20px;
+        height: 100%;
+        width: 200px;
 
-    .nav-links > * {
-        margin: 0px 20px;
     }
+   .wrapper.collapse  {
+    transform: none;
 
+   }
 
     .todo-form {
         min-width: 90%;
+
     }
 
     .todo-list {
