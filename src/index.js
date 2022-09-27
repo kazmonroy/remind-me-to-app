@@ -138,6 +138,9 @@ const todoListApp = (function () {
     _menuBtn.addEventListener("click", () => {
       _navBar.classList.toggle("collapse");
       _wrapper.classList.toggle("collapse");
+
+      _navBar.classList.toggle("open");
+      _wrapper.classList.toggle("open");
     });
   };
 
