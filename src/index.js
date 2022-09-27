@@ -4,7 +4,8 @@ import {getLocalTodos, addLocalTodo, removeLocalTodo} from './modules/local-stor
 
 const Todo = ((text) => {
     const name = text
-    return {name}
+    const tasks = []
+    return {name, tasks}
 
 })
 
