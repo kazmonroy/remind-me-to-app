@@ -16,10 +16,10 @@ const todoListApp = (function () {
 
     // Manage Local Storage
 
-    const _todosLocalStorage = (() => {
+    const todosLocalStorage = (() => {
+
         const getLocalTodos = () => {
             let todos 
-
             if(localStorage.getItem('todos') === null) {
                 todos = []
             } else {
@@ -27,35 +27,85 @@ const todoListApp = (function () {
             }
 
             return todos
+            
         }
 
         const addLocalTodo = (todo) => {
-            const todos = getLocalTodos()
+            let todos = getLocalTodos()
             todos.push(todo)
 
             return localStorage.setItem('todos', JSON.stringify(todos))
         }
 
         const removeLocalTodo = (todoText) => {
-            const todos = getLocalTodos()
-
+            let todos = getLocalTodos()
             todos.forEach((todo, index) => {
                 if(todo.name === todoText) {
                     todos.splice(index, 1)
                 }
             })
 
-           return localStorage.setItem('todos',JSON.stringify(todos) )
+            return localStorage.setItem('todos', JSON.stringify(todos))
 
         }
 
         return {getLocalTodos, addLocalTodo, removeLocalTodo}
+
+
+
     })()
+
+
+
+
+    // const _todosLocalStorage = (() => {
+    //     const getLocalTodos = () => {
+    //         let todos 
+
+    //         if(localStorage.getItem('todos') === null) {
+    //             todos = []
+    //         } else {
+    //             todos = JSON.parse(localStorage.getItem('todos'))
+    //         }
+
+    //         return todos
+    //     }
+
+    //     const addLocalTodo = (todo) => {
+    //         const todos = getLocalTodos()
+    //         todos.push(todo)
+
+    //         return localStorage.setItem('todos', JSON.stringify(todos))
+    //     }
+
+    //     const removeLocalTodo = (todoText) => {
+    //         const todos = getLocalTodos()
+
+    //         todos.forEach((todo, index) => {
+    //             if(todo.name === todoText) {
+    //                 todos.splice(index, 1)
+    //             }
+    //         })
+
+    //        return localStorage.setItem('todos',JSON.stringify(todos) )
+
+    //     }
+
+    //     return {getLocalTodos, addLocalTodo, removeLocalTodo}
+    // })()
 
     // Display Todos in UI
 
     const _displayTodos = () => {
-        const storedTodos = _todosLocalStorage.getLocalTodos()
+
+        const storedTodos = todosLocalStorage.getLocalTodos()
+       
+
+        // const storedTodos = [{
+        //     name: 'run 5k'
+        // }, {
+        //     name: 'study'
+        // }]
 
         const todos = storedTodos
 
@@ -100,7 +150,8 @@ const todoListApp = (function () {
       } else {
         const todo = Todo(_todoInput.value);
         _todoInput.value = "";
-        _todosLocalStorage.addLocalTodo(todo)
+
+        todosLocalStorage.addLocalTodo(todo)
   
         return todo.name;
       }
@@ -134,6 +185,7 @@ const todoListApp = (function () {
         return false;
       } else {
         _createNewTodo()
+     
       }
     };
   
@@ -149,8 +201,9 @@ const todoListApp = (function () {
         const todoText = e.target.parentNode.firstChild.textContent;
       if (e.target.classList.contains("remove-btn")) {
         e.target.parentNode.remove()
-
-        _todosLocalStorage.removeLocalTodo(todoText)
+        todosLocalStorage.removeLocalTodo(todoText)
+    
+        
       }
     };
   
@@ -158,10 +211,11 @@ const todoListApp = (function () {
   
     const _editTodo = (e) => {
       const _todoInput = e.target.parentNode.firstChild;
-  
+    
       if (e.target.classList.contains("edit-btn")) {
         _todoInput.toggleAttribute("contenteditable");
         _todoInput.classList.toggle("edit");
+
       }
 
       _todoInput.addEventListener("keypress", (e) => {
