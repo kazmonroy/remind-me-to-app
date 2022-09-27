@@ -6,21 +6,163 @@
     box-sizing: border-box;
 }
 
+:root {
+    --main: rgba(250, 128, 114, 1);
+    --main-hover: rgba(250, 128, 114, .5);
+    --nav-bg: rgb(250, 250, 250);
+    --nav-bg-hover: #EEEEEE;
+    --gray: rgb(83, 83, 83);
+}
+
 body {
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     font-family: 'Montserrat', sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        "header header"
+        "nav wrapper"
+
 
 }
+
+header {
+    grid-area: header;
+    background-color: var(--main);
+    color: white;
+
+}
+
+.header-links {
+    display: flex;
+    align-items: center;
+    margin: auto 50px;
+    padding: 6px 0px;
+
+}
+
+.header-links>* {
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 5px;
+    display: inline-block;
+
+
+}
+
+.burger-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3px;
+}
+
+.burger {
+    height: 1px;
+    width: 15px;
+    margin-bottom: 4px;
+    background-color: white;
+}
+
+.home-icon {
+
+    filter: invert(100%) sepia(0%) saturate(6%) hue-rotate(198deg) brightness(101%) contrast(101%);
+
+}
+
+
+
+.hd-link:hover {
+    background-color: rgba(186, 31, 14, 0.5);
+}
+
+
+
+
+
+nav {
+    grid-area: nav;
+    min-width: 250px;
+    min-height: 100%;
+    background-color: var(--nav-bg);
+    font-size: .9rem;
+
+    transition: transform .3s ease-in-out;
+
+
+
+
+
+}
+
+nav.collapse {
+    transform: translateX(-250px);
+
+
+
+}
+
+
+nav.collapse {
+    left: 0px;
+}
+
+nav>* {
+    cursor: pointer;
+
+}
+
+.nav-links {
+
+    list-style: none;
+    margin: 25px 0px 0px 50px;
+}
+
+.nav-links>* {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 5px;
+
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+}
+
+.nav-icon {
+    margin-right: 10px;
+
+}
+
+.nav-link:hover {
+    background-color: var(--nav-bg-hover);
+}
+
+
+
 
 .wrapper {
+    margin: 20px 20px;
+    padding: 0px 50px;
+    grid-area: wrapper;
     min-width: 800px;
     display: grid;
-    place-content: center;
+    align-content: flex-start;
+    justify-content: flex-start;
+    background-color: white;
+    transition: transform .3s ease-out;
+
 }
+
+.wrapper.collapse {
+    transform: translateX(-250px);
+}
+
+
 
 form {
 
@@ -38,9 +180,12 @@ input {
     border: none;
     font-size: 1.5rem;
     min-width: 200px;
-    border-bottom: 1px solid salmon;
     font-family: inherit;
     padding: 10px 0px
+}
+
+input::placeholder {
+    font-size: .9rem;
 }
 
 input:focus {
@@ -49,23 +194,31 @@ input:focus {
 }
 
 
-
 .submit-todo-btn {
     cursor: pointer;
     border: none;
-    padding: 15px;
+    padding: 5px;
     background-color: white;
 
 
 }
 
+.submit-todo-btn:hover {
+    background-color: var(--nav-bg-hover);
+    border-radius: 50%;
+}
+
 
 .fa-solid {
     font-size: 1.5rem;
+    font-weight: 100;
     background-color: none;
     pointer-events: none;
     cursor: not-allowed;
+    color: var(--main);
 }
+
+
 
 /* Todo section */
 
@@ -73,7 +226,8 @@ input:focus {
     margin-top: 30px;
 }
 
-.todo-list {
+.todo-list,
+.header-links {
     list-style: none;
 }
 
@@ -81,6 +235,15 @@ input:focus {
     display: flex;
     align-items: center;
     padding: 5px;
+}
+
+.todo-status {
+    padding: 8px;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    border: 1px solid var(--gray);
+    cursor: pointer;
 }
 
 .todo-text {
@@ -94,9 +257,7 @@ input:focus {
     border: none;
     border-left: 2px solid lightblue;
     outline-color: lightblue;
-
 }
-
 
 .remove-btn,
 .edit-btn {
@@ -104,12 +265,19 @@ input:focus {
     border: none;
     padding: 5px;
     background-color: white;
+    color: var(--gray);
 }
 
-.todo .fa-trash,
+.todo .fa-trash-can,
 .todo .fa-pen-to-square {
     font-size: 1rem;
     pointer-events: none;
     cursor: not-allowed;
+
+}
+
+.remove-btn:hover,
+.edit-btn:hover {
+    color: var(--main);
 
 }

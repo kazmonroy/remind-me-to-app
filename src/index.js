@@ -1,7 +1,6 @@
 import "./assets/style.css";
 import {getLocalTodos, addLocalTodo, removeLocalTodo} from './modules/local-storage.js'
 
-
 const Todo = ((text) => {
     const name = text
     const tasks = []
@@ -17,6 +16,9 @@ const todoListApp = (function () {
     const _todoList = document.querySelector(".todo-list");
     const _todoInput = document.querySelector('input[name="todo"]');
     const _todosContainer = document.querySelector(".todos-container");
+    const _menuBtn = document.querySelector('.burger-menu')
+    const _navBar = document.querySelector('nav')
+    const _wrapper = document.querySelector('.wrapper')
 
     // Display Todos in UI
 
@@ -38,6 +40,9 @@ const todoListApp = (function () {
     const _addStoredTodosUI = (todo) => {
         const newTodo = document.createElement("li");
             newTodo.classList.add("todo");
+
+            const todoStatus = document.createElement('div')
+            todoStatus.classList.add('todo-status')
         
             const todoText = document.createElement("p");
             todoText.textContent = todo.name;
@@ -45,12 +50,12 @@ const todoListApp = (function () {
         
             const removeBtn = document.createElement("button");
             removeBtn.classList.add("remove-btn");
-            removeBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
-        
+            removeBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
+
             const editBtn = document.createElement("button");
             editBtn.classList.add("edit-btn");
             editBtn.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
-        
+            newTodo.appendChild(todoStatus)
             newTodo.appendChild(todoText);
             newTodo.appendChild(removeBtn);
             newTodo.appendChild(editBtn);
@@ -86,7 +91,8 @@ const todoListApp = (function () {
   
       const removeBtn = document.createElement("button");
       removeBtn.classList.add("remove-btn");
-      removeBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+      removeBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
+
   
       const editBtn = document.createElement("button");
       editBtn.classList.add("edit-btn");
@@ -152,6 +158,8 @@ const todoListApp = (function () {
       _todosContainer.addEventListener("click", (e) => {
         _removeTodo(e);
         _editTodo(e);
+
+
       });
     };
   
@@ -159,6 +167,14 @@ const todoListApp = (function () {
       _form.addEventListener("submit", _submitTodo);
       _displayTodos()
       _buttonsEvents();
+
+      _menuBtn.addEventListener('click', ()=> {
+
+        _navBar.classList.toggle('collapse')
+        _wrapper.classList.toggle('collapse')
+
+       
+      })
     };
   
     return { start };
