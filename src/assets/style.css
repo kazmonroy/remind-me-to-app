@@ -90,18 +90,10 @@ nav {
     font-size: .9rem;
 
     transition: transform .3s ease-in-out;
-
-
-
-
-
 }
 
 nav.collapse {
     transform: translateX(-250px);
-
-
-
 }
 
 
