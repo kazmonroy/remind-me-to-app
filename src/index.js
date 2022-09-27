@@ -62,29 +62,16 @@ const todoListApp = (function () {
 
   // Create & add todo
 
-  const _getTodoValue = (_todoInput) => {
-    if (_todoInput.value == "") {
-      console.log("empty");
-      return false;
-    } else {
-      const todo = Todo(_todoInput.value);
-      _todoInput.value = "";
-
-      addLocalTodo(todo);
-
-      return todo.name;
-    }
-  };
-
   const _appendNewTodoUI = (_todoInput) => {
-    if (_todoInput.value == "") {
+    let todoText = _todoInput.value;
+
+    if (todoText == "" || todoText === null) {
       return false;
     } else {
-      const todo = Todo(_todoInput.value);
+      const todo = Todo(todoText);
       _todoInput.value = "";
 
       addLocalTodo(todo);
-
       _addTodosUI(todo);
     }
   };
@@ -124,6 +111,13 @@ const todoListApp = (function () {
     });
   };
 
+  const _toggleNavBar = () => {
+    _menuBtn.addEventListener("click", () => {
+      _navBar.classList.toggle("collapse");
+      _wrapper.classList.toggle("collapse");
+    });
+  };
+
   const _buttonsEvents = () => {
     _todosContainer.addEventListener("click", (e) => {
       _removeTodo(e);
@@ -135,12 +129,7 @@ const todoListApp = (function () {
     _form.addEventListener("submit", _submitTodo);
     _displayTodos();
     _buttonsEvents();
-
-    _menuBtn.addEventListener("click", () => {
-      _navBar.classList.toggle("collapse");
-      _navLinks.classList.toggle("collapse");
-      _wrapper.classList.toggle("collapse");
-    });
+    _toggleNavBar();
   };
 
   return { start };
