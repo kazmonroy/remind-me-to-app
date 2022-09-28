@@ -97,14 +97,14 @@ nav>* {
 
 }
 
-.nav-links {
+.nav-links, .projects-list {
     list-style: none;
     margin: 25px 0px 0px 50px;
 
 }
 
 
-.nav-link {
+.nav-link, .project-link {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -114,13 +114,52 @@ nav>* {
 
 }
 
+.project-link.active {
+    background-color: var(--nav-bg-hover);
+}
+
 .nav-icon {
     margin-right: 10px;
     min-width: 15px;
 }
 
-.nav-link:hover {
+.nav-link:hover, .project-link:hover {
     background-color: var(--nav-bg-hover);
+}
+
+.btn {
+    border: none;
+    background-color: white;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.btn:hover  {
+    color: var(--main);
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.project-form-container {
+    overflow: hidden;
+    margin-left: 50px;
+}
+
+.project-form, .project-name-input {
+    background-color: var(--nav-bg);
+    overflow: hidden;
+}
+
+.add-project-btn {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: var(--nav-bg);
+    transform: scale(.7);
 }
 
 .wrapper {
@@ -132,7 +171,7 @@ nav>* {
     transition: transform .3s ease-in-out;
 }
 
-.todo-form {
+.projects-tasks-display {
     min-width: 600px;
 
 }
@@ -154,7 +193,7 @@ form>* {
 
 input {
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     min-width: 200px;
     font-family: inherit;
     padding: 10px 0px;
@@ -162,7 +201,7 @@ input {
 }
 
 input::placeholder {
-    font-size: .9rem;
+    font-size: .8rem;
 }
 
 input:focus {
@@ -191,6 +230,10 @@ input:focus {
     color: var(--main);
 }
 
+
+
+/*  */
+
 /* Todo section */
 
 .todo-list,
@@ -200,6 +243,7 @@ input:focus {
 
 .todo {
     display: flex;
+    /* justify-content: center; */
     align-items: center;
     padding: 5px;
     margin: 8px 0px;
@@ -222,11 +266,90 @@ input:focus {
 
 }
 
+.todo-text.complete {
+    color: gray;
+}
+
 .todo-text.edit {
     border: none;
     border-left: 2px solid lightblue;
     outline-color: lightblue;
 }
+
+/* Tasks */
+
+
+
+
+.task {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin: 20px 0px;
+    border-bottom: 1px solid var(--nav-bg-hover);
+    cursor: pointer;
+
+}
+
+.task-text {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+}
+
+.task-text::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: 1px;
+   
+}
+
+[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+}
+
+
+
+
+.custom-checkbox {
+    --size: 12px;
+    position: absolute;
+    left: -20px;
+    display: inline-block;
+    width: var(--size);
+    height: var(--size);
+    border: 1px solid var(--gray);
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 10px;
+    transform: scale(1);
+    transition: all .2s ease-in-out;
+}
+
+.task:hover .custom-checkbox, [type="checkbox"]:focus + .custom-checkbox {
+    transform: scale(1.2);
+    /* border-color: var(--main); */
+
+}
+
+[type="checkbox"]:checked + label .custom-checkbox {
+     background: var(--main);
+     border-color: var(--main);
+     box-shadow: inset 0 0 0px 2px white;
+}
+
+
+[type="checkbox"]:checked + label {
+    opacity: .5;
+}
+
+
+/* End tasks */
 
 .remove-btn,
 .edit-btn {
@@ -263,7 +386,7 @@ input:focus {
         margin: 25px 20px;
     }
 
-    .todo-form {
+    .projects-tasks-display {
         min-width: 400px;
 
     }
@@ -300,19 +423,24 @@ input:focus {
         z-index: 1;
     }
 
-    .nav-links {
+    .nav-links, .project-form-container, .projects-list {
+    
         background-color: var(--nav-bg);
         margin: 0px;
         padding: 25px 0px 0px 20px;
-        height: 100%;
+        /* height: 100%; */
         width: 200px;
+    }
+
+    .projects-list {
+        min-height: 100%;
     }
 
    .wrapper.collapse  {
     transform: none;
    }
 
-    .todo-form {
+    .projects-tasks-display {
         min-width: 90%;
     }
 
