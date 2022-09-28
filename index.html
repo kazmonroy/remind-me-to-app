@@ -33,11 +33,8 @@
           </div>
        
         </li>
-        <!-- <li class="link hd-link"><img src="../src/assets/svg/home.svg" alt="home" class="home-icon" ></i></li> -->
         <li class="link hd-link">
-          
           <i class="fa-solid fa-house" class="home-icon" ></i>
-        
         </i></li>
 
       </ul> 
@@ -46,38 +43,61 @@
     <nav>
 
     <ul class="nav-links">
-      <!-- <li class="nav-link"><img src="../src/assets/svg/today.svg" alt="todays list" class="nav-icon today-icon"> Today</li>
-      <li class="nav-link"><img src="../src/assets/svg/right-arrow.svg" alt="arrow" class="nav-icon arrow-icon" > Projects</li> -->
-
-        <li class="nav-link"><i class="fa-solid fa-list-check nav-icon today-icon" ></i> Today</li>
+      <li class="nav-link"><i class="fa-solid fa-list-check nav-icon today-icon" ></i> Today</li>
       <li class="nav-link"><i class="fa-solid fa-angle-right nav-icon arrow-icon" ></i> Projects</li>
+    </ul>
+
+    <div class="project-form-container">
+      <form action="" class="project-form" data-project-form>
+        <button class="add-project-btn">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+       
+        <input type="text" name="todo" placeholder="New project" class="project-name-input" data-project-name-input/>
+       
+      </form>
+
+
+    </div>
+
+    <ul class="projects-list" data-projects-list>
+
+
     </ul>
 
     </nav>
 
-    <div class="wrapper" id="wrapper">
+    <div class="wrapper" >
 
    
-   
+      <section class="projects-tasks-display" data-projects-tasks-display>
 
-      <section class="todo-form">
-
-        <h1>Today</h1>
-        <form action="" class="add-todo-form">
+        <h1 data-project-name-title>Today</h1>
+        <form action="" class="add-todo-form" data-task-form>
           <button class="submit-todo-btn">
             <i class="fa-solid fa-plus"></i>
           </button>
          
-          <input type="text" name="todo" placeholder="Add a task"/>
+          <input type="text" name="todo" placeholder="Add task" data-task-input />
          
         </form>
 
         <section class="todos-container">
-          <ul class="todo-list"></ul>
+          <ul class="todo-list" data-tasks-container></ul>
         </section>
+
+      <div class="btn-container">
+        <button class="btn delete-btn" data-delete-project>Delete project</button>
+        <button class="btn delete-btn" data-delete-completed-tasks>Delete completed tasks</button>
       </div>
 
+
       </section>
+
+
+ 
+    
+    </div>
 
    
     
