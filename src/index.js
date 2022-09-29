@@ -25,6 +25,9 @@ const todoApp = (() => {
     "[data-delete-completed-tasks]"
   );
 
+  const menuIcon = document.querySelector("[data-burger-menu-icon]");
+  const nav = document.querySelector("nav");
+
   // LOCAL STORAGE
 
   const LOCAL_STORAGE_PROJECTS_LISTS_KEY = "projects.list";
@@ -88,6 +91,11 @@ const todoApp = (() => {
     saveAndRender();
   });
 
+  menuIcon.addEventListener("click", (e) => {
+    console.log("hi");
+    nav.classList.toggle("collapse");
+  });
+
   // FUNCTIONALITIES
 
   const addNewProject = (projectNameInput) => {
@@ -142,7 +150,6 @@ const todoApp = (() => {
   };
 
   const deleteTaskUI = (e) => {
-    console.log(e);
     e.target.parentElement.parentElement.remove();
   };
 
