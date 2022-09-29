@@ -40,8 +40,9 @@ const todoApp = (() => {
     LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY
   );
 
-  let todayTasks =
-    JSON.parse(localStorage.getItem(LOCAL_STORAGE_TODAY_TAB_KEY)) || [];
+  let todayTasks = JSON.parse(
+    localStorage.getItem(LOCAL_STORAGE_TODAY_TAB_KEY)
+  ) || [Project("Today")];
   let projects =
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECTS_LISTS_KEY)) || [];
 
@@ -62,20 +63,6 @@ const todoApp = (() => {
   };
 
   // EVENT LISTENERS
-
-  todayTab.addEventListener("click", (e) => {
-    const todayInfo = Project("Today");
-
-    selectedProjectID = todayInfo.id;
-
-    if (selectedProjectID === null) {
-      projectsTasksDisplay.style.display = "none";
-    } else {
-      projectsTasksDisplay.style.display = "";
-      projectTitle.textContent = todayInfo.name;
-      clearElement(projectTasksContainer);
-    }
-  });
 
   newProjectForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -146,6 +133,7 @@ const todoApp = (() => {
     );
 
     currentProject.tasks.push(newTask);
+
     saveAndRender();
 
     taskNameInput.value = "";
