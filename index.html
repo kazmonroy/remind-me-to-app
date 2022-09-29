@@ -23,32 +23,45 @@
 
     <header>
       <ul class="header-links">
-        <li class="link hd-link">
-
+        <li class="link hd-icon">
           <div class="burger-menu">
-
             <div class="burger"></div>
             <div class="burger"></div>
             <div class="burger"></div>
           </div>
-       
         </li>
-        <li class="link hd-link">
+        <li class="link hd-icon">
           <i class="fa-solid fa-house" class="home-icon" ></i>
         </i></li>
-
       </ul> 
     </header>
 
-    <nav>
+    <nav class="nav-bar">
 
-    <ul class="nav-links">
-      <li class="nav-link"><i class="fa-solid fa-list-check nav-icon today-icon" ></i> Today</li>
-      <li class="nav-link"><i class="fa-solid fa-angle-right nav-icon arrow-icon" ></i> Projects</li>
+      <section class="main-tabs">
+        <ul class="main-tabs-container" data-main-tabs-container>
+          <li class="nav-tab"><i class="fa-solid fa-list-check nav-icon today-icon" ></i> Today</li>
+        </ul>
+      </section>
+
+
+    <section class="projects-section">
+
+
+      <div class="projects-title-tab nav-tab"><i class="fa-solid fa-angle-right nav-icon arrow-icon" ></i> Projects</div>
+
+
+    <ul class="projects-tabs-container" data-projects-tabs-container>
+    
+      <!-- <li class="nav-tab"><i class="fa-solid fa-list-check nav-icon today-icon" ></i> Today</li>
+      <li class="nav-tab"><i class="fa-solid fa-angle-right nav-icon arrow-icon" ></i> Projects</li> -->
     </ul>
 
-    <div class="project-form-container">
-      <form action="" class="project-form" data-project-form>
+    <div class="new-project-form-container">
+
+
+
+      <form action="" class="project-form" data-new-project-form>
         <button class="add-project-btn">
           <i class="fa-solid fa-plus"></i>
         </button>
@@ -59,6 +72,10 @@
 
 
     </div>
+
+
+    </section>
+
 
     <ul class="projects-list" data-projects-list>
 
@@ -71,19 +88,18 @@
 
    
       <section class="projects-tasks-display" data-projects-tasks-display>
-
         <h1 data-project-name-title>Today</h1>
-        <form action="" class="add-todo-form" data-task-form>
-          <button class="submit-todo-btn">
+        <form action="" class="new-task-form" data-new-task-form>
+          <button class="submit-new-task">
             <i class="fa-solid fa-plus"></i>
           </button>
          
-          <input type="text" name="todo" placeholder="Add task" data-task-input />
+          <input type="text" name="todo" placeholder="Add task" data-task-name-input/>
          
         </form>
 
-        <section class="todos-container">
-          <ul class="todo-list" data-tasks-container></ul>
+        <section class="tasks-container">
+          <ul class="project-tasks-list" data-project-tasks-container></ul>
         </section>
 
       <div class="btn-container">
