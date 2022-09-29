@@ -48,7 +48,7 @@ const todoApp = (() => {
 
     {
       id: "1728272822839",
-      name: "Projects",
+      name: "Grocerys",
       tasks: [],
     },
   ];
