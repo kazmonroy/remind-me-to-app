@@ -23,14 +23,14 @@
 
     <header>
       <ul class="header-links">
-        <li class="link hd-icon">
-          <div class="burger-menu">
+        <li class="hd-icon">
+          <div class="burger-menu" data-burger-menu-icon>
             <div class="burger"></div>
             <div class="burger"></div>
             <div class="burger"></div>
           </div>
         </li>
-        <li class="link hd-icon">
+        <li class="hd-icon">
           <i class="fa-solid fa-house" class="home-icon" ></i>
         </i></li>
       </ul> 
@@ -48,45 +48,36 @@
     <section class="projects-section">
 
 
-      <div class="projects-title-tab nav-tab"><i class="fa-solid fa-angle-right nav-icon arrow-icon" ></i> Projects</div>
+      <div class="projects-title-tab">
+        <p class=" nav-tab">  <i class="fa-solid fa-angle-right nav-icon arrow-icon" ></i> Projects</p>
+      
+      </div>
 
+      <div class="new-project-form-container">
+
+        <form action="" class="project-form" data-new-project-form>
+          <button class="add-project-btn">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+         
+          <input type="text" name="todo" placeholder="New project" class="project-name-input" data-project-name-input/>
+         
+        </form>
+  
+      </div>
 
     <ul class="projects-tabs-container" data-projects-tabs-container>
-    
-      <!-- <li class="nav-tab"><i class="fa-solid fa-list-check nav-icon today-icon" ></i> Today</li>
-      <li class="nav-tab"><i class="fa-solid fa-angle-right nav-icon arrow-icon" ></i> Projects</li> -->
     </ul>
 
-    <div class="new-project-form-container">
-
-
-
-      <form action="" class="project-form" data-new-project-form>
-        <button class="add-project-btn">
-          <i class="fa-solid fa-plus"></i>
-        </button>
-       
-        <input type="text" name="todo" placeholder="New project" class="project-name-input" data-project-name-input/>
-       
-      </form>
-
-
-    </div>
+ 
 
 
     </section>
-
-
-    <ul class="projects-list" data-projects-list>
-
-
-    </ul>
 
     </nav>
 
     <div class="wrapper" >
 
-   
       <section class="projects-tasks-display" data-projects-tasks-display>
         <h1 data-project-name-title>Today</h1>
         <form action="" class="new-task-form" data-new-task-form>
@@ -106,16 +97,9 @@
         <button class="btn delete-btn" data-delete-project>Delete project</button>
         <button class="btn delete-btn" data-delete-completed-tasks>Delete completed tasks</button>
       </div>
-
-
       </section>
 
-
- 
-    
     </div>
-
-   
     
     <script src="main.js"></script>
   </body>
