@@ -14,7 +14,8 @@
     --gray: rgb(83, 83, 83);
 }
 
-html, body {
+html,
+body {
     min-height: 100vh;
 }
 
@@ -74,7 +75,7 @@ header {
 
 }
 
-.hd-link:hover {
+.hd-icon:hover {
     background-color: rgba(186, 31, 14, 0.5);
 }
 
@@ -97,14 +98,36 @@ nav>* {
 
 }
 
-.nav-links, .projects-list {
+.main-tabs-container,
+.projects-tabs-container,
+.projects-title-tab,
+.projects-list {
     list-style: none;
     margin: 25px 0px 0px 50px;
 
 }
 
+.projects-title-tab {
+    margin-bottom: 15px;
+}
 
-.nav-link, .project-link {
+.icon-project {
+    display: flex;
+    align-items: center;
+}
+
+.fa-circle {
+    font-size: .5rem;
+    color: var(--main);
+
+}
+
+.nav-tab>* {
+    pointer-events: none;
+}
+
+.nav-tab,
+.project-link {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -114,7 +137,7 @@ nav>* {
 
 }
 
-.project-link.active {
+.nav-tab.active {
     background-color: var(--nav-bg-hover);
 }
 
@@ -123,7 +146,8 @@ nav>* {
     min-width: 15px;
 }
 
-.nav-link:hover, .project-link:hover {
+.nav-tab:hover,
+.project-link:hover {
     background-color: var(--nav-bg-hover);
 }
 
@@ -134,7 +158,7 @@ nav>* {
     cursor: pointer;
 }
 
-.btn:hover  {
+.btn:hover {
     color: var(--main);
 }
 
@@ -144,12 +168,13 @@ nav>* {
 
 }
 
-.project-form-container {
+.new-project-form-container {
     overflow: hidden;
     margin-left: 50px;
 }
 
-.project-form, .project-name-input {
+.project-form,
+.project-name-input {
     background-color: var(--nav-bg);
     overflow: hidden;
 }
@@ -209,14 +234,14 @@ input:focus {
 
 }
 
-.submit-todo-btn {
+.submit-new-task {
     cursor: pointer;
     border: none;
     padding: 5px;
     background-color: white;
 }
 
-.submit-todo-btn:hover {
+.submit-new-task:hover {
     background-color: var(--nav-bg-hover);
     border-radius: 50%;
 }
@@ -230,13 +255,27 @@ input:focus {
     color: var(--main);
 }
 
+.task-btn {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    margin: 0px 5px;
+}
+
+.task-btn > * {
+    pointer-events: none;
+    font-size: 1.2rem;
+
+}
+
+
 
 
 /*  */
 
 /* Todo section */
 
-.todo-list,
+.project-tasks-list,
 .header-links {
     list-style: none;
 }
@@ -305,7 +344,7 @@ input:focus {
     right: 0;
     left: 0;
     height: 1px;
-   
+
 }
 
 [type="checkbox"] {
@@ -331,20 +370,21 @@ input:focus {
     transition: all .2s ease-in-out;
 }
 
-.task:hover .custom-checkbox, [type="checkbox"]:focus + .custom-checkbox {
+.task:hover .custom-checkbox,
+[type="checkbox"]:focus+.custom-checkbox {
     transform: scale(1.2);
     /* border-color: var(--main); */
 
 }
 
-[type="checkbox"]:checked + label .custom-checkbox {
-     background: var(--main);
-     border-color: var(--main);
-     box-shadow: inset 0 0 0px 2px white;
+[type="checkbox"]:checked+label .custom-checkbox {
+    background: var(--main);
+    border-color: var(--main);
+    box-shadow: inset 0 0 0px 2px white;
 }
 
 
-[type="checkbox"]:checked + label {
+[type="checkbox"]:checked+label {
     opacity: .5;
 }
 
@@ -374,13 +414,13 @@ input:focus {
 
 }
 
-@media  (max-width: 950px) {
+@media (max-width: 950px) {
 
     body {
         grid-template-columns: 200px 1fr;
     }
 
-    .wrapper{
+    .wrapper {
         min-width: 300px;
 
         margin: 25px 20px;
@@ -391,17 +431,17 @@ input:focus {
 
     }
 
-    }
+}
 
 @media (max-width: 600px) {
 
     body {
         grid-template-columns: 1fr;
         grid-template-rows: 45px 50px 1fr;
-        grid-template-areas: 
-        "header"
-        "nav"
-        "wrapper";
+        grid-template-areas:
+            "header"
+            "nav"
+            "wrapper";
     }
 
     .header-links {
@@ -417,14 +457,17 @@ input:focus {
         transform: translateX(-1200px);
         transition: all 0.4s ease-in-out;
     }
-    
+
     nav.collapse {
         transform: translateX(0px);
         z-index: 1;
     }
 
-    .nav-links, .project-form-container, .projects-list {
-    
+    .main-tabs-container,
+    .projects-tabs-container,
+    .new-project-form-container,
+    .projects-list {
+
         background-color: var(--nav-bg);
         margin: 0px;
         padding: 25px 0px 0px 20px;
@@ -436,15 +479,15 @@ input:focus {
         min-height: 100%;
     }
 
-   .wrapper.collapse  {
-    transform: none;
-   }
+    .wrapper.collapse {
+        transform: none;
+    }
 
     .projects-tasks-display {
         min-width: 90%;
     }
 
-    .todo-list {
+    .project-tasks-list {
         display: flex;
         flex-direction: column;
     }

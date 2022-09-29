@@ -1,112 +1,225 @@
 import "./assets/style.css";
-import {
-  getLocalTodos,
-  addLocalTodo,
-  removeLocalTodo,
-} from "./modules/local-storage.js";
+import { Project, Task } from "./modules/projects.js";
 
-const Todo = (text) => {
-  const name = text;
-  const tasks = [];
-  return { name, tasks };
-};
-
-const Project = (projectName) => {
-  const id = Date.now().toString();
-  const name = projectName;
-  const tasks = [];
-
-  return { id, name, tasks };
-};
-
-const Task = (taskName) => {
-  const id = Date.now().toString();
-  const name = taskName;
-  const complete = false;
-
-  return { id, name, complete };
-};
-
-const todoListApp = (function () {
-  // propertiers
-  const taskForm = document.querySelector("[data-task-form]");
-  const tasksContainer = document.querySelector("[data-tasks-container]");
-  const taskInput = taskForm.querySelector("[data-task-input]");
-  const _todosContainer = document.querySelector(".todos-container");
-  const _menuBtn = document.querySelector(".burger-menu");
-  const _navBar = document.querySelector("nav");
-  const _wrapper = document.querySelector(".wrapper");
-
-  //   PROJECTS
-  const projectForm = document.querySelector("[data-project-form]");
-  const projectNameInput = projectForm.querySelector(
+const todoApp = (() => {
+  const newProjectForm = document.querySelector("[data-new-project-form]");
+  const projectNameInput = newProjectForm.querySelector(
     "[data-project-name-input]"
   );
-  const projectsList = document.querySelector("[data-projects-list]");
+
+  const projectsTabsContainer = document.querySelector(
+    "[data-projects-tabs-container]"
+  );
+
+  const projectsTasksDisplay = document.querySelector(
+    "[data-projects-tasks-display]"
+  );
+  const newTaskForm = document.querySelector("[data-new-task-form]");
+  const projectTitle = document.querySelector("[data-project-name-title]");
+  const projectTasksContainer = document.querySelector(
+    "[data-project-tasks-container]"
+  );
+  const taskNameInput = newTaskForm.querySelector("[data-task-name-input]");
   const deleteProjectBtn = document.querySelector("[data-delete-project]");
-  const deleteCompletedTasksBtn = document.querySelector(
+  const deleteCompletedTasksBTn = document.querySelector(
     "[data-delete-completed-tasks]"
   );
 
-  const projectsDisplay = document.querySelector(
-    "[data-projects-tasks-display]"
-  );
-  const projectNameTitle = document.querySelector("[data-project-name-title]");
-  const projectTasksContainer = document.querySelector(
-    "[data-tasks-container]"
-  );
-  const LOCAL_STORAGE_PROJECTS_LISTS_KEY = '"projects.lists"';
-  const LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY = '"projects.selectedId"';
+  // LOCAL STORAGE
 
-  let selectedProjectId = localStorage.getItem(
+  const LOCAL_STORAGE_PROJECTS_LISTS_KEY = "projects.list";
+  const LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY = "project.selectedID";
+
+  let selectedProjectID = localStorage.getItem(
     LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY
   );
-
   let projects =
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECTS_LISTS_KEY)) || [];
 
-  const saveProjectsLocalStorage = () => {
+  const saveLocalStorage = () => {
     localStorage.setItem(
       LOCAL_STORAGE_PROJECTS_LISTS_KEY,
       JSON.stringify(projects)
     );
-
     localStorage.setItem(
       LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY,
-      selectedProjectId
+      selectedProjectID
     );
   };
 
-  const renderAndSaveProjects = () => {
-    renderUI();
-    saveProjectsLocalStorage();
-  };
+  // EVENT LISTENERS
 
-  const renderUI = () => {
-    clearContainer(projectsList);
-    renderProjectsList();
-    renderProjectInfo();
-  };
+  newProjectForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    addNewProject(projectNameInput);
+  });
 
-  const renderProjectInfo = () => {
-    const projectInfo = projects.find(
-      (project) => project.id === selectedProjectId
+  newTaskForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    addNewTask(taskNameInput);
+  });
+
+  projectsTabsContainer.addEventListener("click", (e) => {
+    if (e.target.tagName.toLowerCase() === "li") {
+      selectedProjectID = e.target.dataset.projectId;
+      saveAndRender();
+    }
+  });
+
+  projectTasksContainer.addEventListener("click", (e) => {
+    checkTaskDone(e);
+    deleteTask(e);
+  });
+
+  deleteProjectBtn.addEventListener("click", (e) => {
+    projects = projects.filter((project) => project.id !== selectedProjectID);
+    selectedProjectID = null;
+
+    saveAndRender();
+  });
+
+  deleteCompletedTasksBTn.addEventListener("click", (e) => {
+    const currentProject = findSelectedProject();
+
+    currentProject.tasks = currentProject.tasks.filter(
+      (task) => !task.isComplete
     );
 
-    if (selectedProjectId === null) {
-      projectsDisplay.style.display = "none";
-    } else {
-      projectsDisplay.style.display = "";
-      projectNameTitle.textContent = projectInfo.name;
-      clearContainer(projectTasksContainer);
-      renderTasks(projectInfo);
+    saveAndRender();
+  });
+
+  // FUNCTIONALITIES
+
+  const addNewProject = (projectNameInput) => {
+    const projectName = projectNameInput.value;
+
+    if (projectName === null || projectName === "") return;
+
+    const newProject = Project(projectName);
+    projects.push(newProject);
+    saveAndRender();
+
+    projectNameInput.value = "";
+  };
+
+  const addNewTask = (taskNameInput) => {
+    const taskName = taskNameInput.value;
+    if (taskName === null || taskName === "") return;
+
+    const newTask = Task(taskName);
+
+    const currentProject = projects.find(
+      (project) => project.id === selectedProjectID
+    );
+
+    currentProject.tasks.push(newTask);
+    saveAndRender();
+
+    taskNameInput.value = "";
+  };
+
+  const checkTaskDone = (e) => {
+    if (e.target.tagName.toLowerCase() === "input") {
+      const currentProject = findSelectedProject();
+
+      const selectedTask = currentProject.tasks.find(
+        (task) => task.id === e.target.id
+      );
+      selectedTask.isComplete = e.target.checked;
+
+      saveAndRender();
     }
   };
 
-  const renderTasks = (projectInfo) => {
-    projectInfo.tasks.forEach((task) => {
-      //   CheckBox
+  const deleteTask = (e) => {
+    const deleteBtn = e.target.classList.contains("delete-task-btn");
+    if (deleteBtn) {
+      deleteTaskUI(e);
+      deleteTaskLocalStorage(e);
 
+      saveAndRender();
+    }
+  };
+
+  const deleteTaskUI = (e) => {
+    console.log(e);
+    e.target.parentElement.parentElement.remove();
+  };
+
+  const deleteTaskLocalStorage = (e) => {
+    const selectedTask = e.target.parentElement.parentElement.firstChild;
+
+    const currentProject = projects.find(
+      (project) => project.id === selectedProjectID
+    );
+
+    currentProject.tasks.forEach((task, index) => {
+      if (task.id === selectedTask.id) {
+        currentProject.tasks.splice(index, 1);
+      }
+    });
+  };
+
+  const saveAndRender = () => {
+    renderUI();
+    saveLocalStorage();
+  };
+
+  const renderUI = () => {
+    clearElement(projectsTabsContainer);
+    renderProjects();
+    renderProjectInfo();
+  };
+
+  const renderProjects = () => {
+    projects.forEach((project) => {
+      const newTabProject = document.createElement("li");
+      newTabProject.classList.add("nav-tab");
+      newTabProject.setAttribute("id", project.id);
+      newTabProject.dataset.projectId = project.id;
+      if (newTabProject.dataset.projectId === selectedProjectID) {
+        newTabProject.classList.add("active");
+      }
+
+      const iconProject = document.createElement("div");
+      iconProject.classList.add("icon-project");
+      iconProject.innerHTML = '<i class="fa-solid fa-circle nav-icon"></i>';
+
+      const projectName = document.createElement("p");
+      projectName.textContent = project.name;
+
+      newTabProject.appendChild(iconProject);
+      newTabProject.appendChild(projectName);
+
+      projectsTabsContainer.appendChild(newTabProject);
+    });
+  };
+
+  const findSelectedProject = () => {
+    const currentProjectInfo = projects.find(
+      (project) => project.id === selectedProjectID
+    );
+
+    return currentProjectInfo;
+  };
+
+  const renderProjectInfo = () => {
+    const currentProjectInfo = findSelectedProject();
+
+    if (selectedProjectID === null || currentProjectInfo === undefined) {
+      projectsTasksDisplay.style.display = "none";
+    } else {
+      projectsTasksDisplay.style.display = "";
+      projectTitle.textContent = currentProjectInfo.name;
+      clearElement(projectTasksContainer);
+      renderTasks();
+    }
+  };
+
+  const renderTasks = () => {
+    const currentProjectInfo = findSelectedProject();
+
+    currentProjectInfo.tasks.forEach((task) => {
       const newTask = document.createElement("li");
       newTask.classList.add("task");
 
@@ -114,7 +227,7 @@ const todoListApp = (function () {
       taskCheck.setAttribute("type", "checkbox");
       taskCheck.setAttribute("id", task.id);
       taskCheck.dataset.taskId = task.id;
-      taskCheck.checked = task.complete;
+      taskCheck.checked = task.isComplete;
 
       const taskContent = document.createElement("label");
       taskContent.setAttribute("for", task.id);
@@ -127,225 +240,42 @@ const todoListApp = (function () {
 
       taskContent.appendChild(customCheckBox);
 
+      const iconsContainer = document.createElement("div");
+
+      iconsContainer.classList.add("task-icons-container");
+
+      const deleteBtn = document.createElement("button");
+
+      deleteBtn.classList.add("task-btn", "delete-task-btn");
+      deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can "></i>';
+
+      const editBtn = document.createElement("button");
+
+      editBtn.classList.add("task-btn", "edit-task-btn");
+      editBtn.innerHTML = '<i class="fa-regular fa-pen-to-square "></i>';
+
+      iconsContainer.appendChild(deleteBtn);
+      iconsContainer.appendChild(editBtn);
+
       newTask.appendChild(taskCheck);
       newTask.appendChild(taskContent);
+      newTask.appendChild(iconsContainer);
 
-      return tasksContainer.appendChild(newTask);
+      return projectTasksContainer.appendChild(newTask);
     });
   };
 
-  const renderProjectsList = () => {
-    projects.forEach((project) => {
-      const newProject = document.createElement("li");
-      newProject.textContent = project.name;
-      newProject.classList.add("project-link");
-      newProject.dataset.projectId = project.id;
-      if (project.id === selectedProjectId) {
-        newProject.classList.add("active");
-      }
-
-      projectsList.appendChild(newProject);
-    });
-  };
-
-  const clearContainer = (projectListContainer) => {
-    while (projectListContainer.firstChild) {
-      projectListContainer.removeChild(projectListContainer.firstChild);
+  const clearElement = (element) => {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
     }
-  };
-
-  taskForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const taskName = taskInput.value;
-    if (taskName === null || taskName == "") return;
-
-    const newTask = Task(taskName);
-
-    taskInput.value = "";
-    const currentProject = projects.find(
-      (project) => project.id === selectedProjectId
-    );
-
-    currentProject.tasks.push(newTask);
-    renderAndSaveProjects();
-  });
-
-  tasksContainer.addEventListener("click", (e) => {
-    if (e.target.tagName.toLowerCase() === "input") {
-      const currentProject = projects.find(
-        (project) => project.id === selectedProjectId
-      );
-
-      const selectedTask = currentProject.tasks.find(
-        (task) => task.id === e.target.id
-      );
-
-      //   selectedTask.complete = true;
-      selectedTask.complete = e.target.checked;
-
-      saveProjectsLocalStorage();
-    }
-  });
-
-  projectForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const projectName = projectNameInput.value;
-
-    if (projectName === null || projectName == "") return;
-
-    const newProject = Project(projectName);
-
-    projects.push(newProject);
-
-    projectNameInput.value = "";
-
-    renderAndSaveProjects();
-  });
-
-  projectsList.addEventListener("click", (e) => {
-    if (e.target.tagName.toLowerCase() === "li") {
-      selectedProjectId = e.target.dataset.projectId;
-      renderAndSaveProjects();
-    }
-  });
-
-  deleteProjectBtn.addEventListener("click", (e) => {
-    projects = projects.filter((project) => project.id !== selectedProjectId);
-    selectedProjectId = null;
-    renderAndSaveProjects();
-  });
-
-  deleteCompletedTasksBtn.addEventListener("click", (e) => {
-    const currentProject = projects.find(
-      (project) => project.id === selectedProjectId
-    );
-
-    currentProject.tasks = currentProject.tasks.filter(
-      (task) => !task.complete
-    );
-
-    renderAndSaveProjects();
-    console.log(currentProject);
-  });
-
-  //   *************************************
-
-  // Display Todos in UI
-
-  const _displayTodos = () => {
-    const storedTodos = getLocalTodos();
-    const todos = storedTodos;
-
-    todos.forEach((todo) => {
-      _addTodosUI(todo);
-    });
-  };
-
-  const _addTodosUI = (todo) => {
-    const newTodo = document.createElement("li");
-    newTodo.classList.add("todo");
-
-    const todoStatus = document.createElement("div");
-    todoStatus.classList.add("todo-status");
-
-    const todoText = document.createElement("p");
-    todoText.textContent = todo.name;
-    todoText.classList.add("todo-text");
-
-    const removeBtn = document.createElement("button");
-    removeBtn.classList.add("remove-btn");
-    removeBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
-
-    const editBtn = document.createElement("button");
-    editBtn.classList.add("edit-btn");
-    editBtn.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
-
-    newTodo.appendChild(todoStatus);
-    newTodo.appendChild(todoText);
-    newTodo.appendChild(removeBtn);
-    newTodo.appendChild(editBtn);
-
-    return tasksContainer.appendChild(newTodo);
-  };
-
-  // Create & add todo
-
-  const _appendNewTodoUI = (taskInput) => {
-    let todoText = taskInput.value;
-
-    if (todoText == "" || todoText === null) {
-      return false;
-    } else {
-      const todo = Todo(todoText);
-      taskInput.value = "";
-
-      addLocalTodo(todo);
-      _addTodosUI(todo);
-    }
-  };
-
-  const _submitTodo = (e) => {
-    e.preventDefault();
-
-    return _appendNewTodoUI(taskInput);
-  };
-
-  // Remove todo
-
-  //   const _removeTodo = (e) => {
-  //     const todoText = e.target.parentNode.firstChild.nextSibling.textContent;
-
-  //     if (e.target.classList.contains("remove-btn")) {
-  //       e.target.parentNode.remove();
-  //       removeLocalTodo(todoText);
-  //     }
-  //   };
-
-  // Edit todo
-
-  const _editTodo = (e) => {
-    const taskInput = e.target.parentNode.firstChild;
-
-    if (e.target.classList.contains("edit-btn")) {
-      taskInput.toggleAttribute("contenteditable");
-      taskInput.classList.toggle("edit");
-    }
-
-    taskInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        taskInput.toggleAttribute("contenteditable");
-        taskInput.classList.toggle("edit");
-      }
-    });
-  };
-
-  const _toggleNavBar = () => {
-    _menuBtn.addEventListener("click", () => {
-      _navBar.classList.toggle("collapse");
-      _wrapper.classList.toggle("collapse");
-    });
-  };
-
-  const _buttonsEvents = () => {
-    _todosContainer.addEventListener("click", (e) => {
-      //   _removeTodo(e);
-      _editTodo(e);
-    });
   };
 
   const start = () => {
-    taskForm.addEventListener("submit", _submitTodo);
-    _displayTodos();
-    _buttonsEvents();
-    _toggleNavBar();
-
-    // practice
     renderUI();
   };
 
   return { start };
 })();
 
-todoListApp.start();
+todoApp.start();
