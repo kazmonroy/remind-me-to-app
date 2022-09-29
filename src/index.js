@@ -27,24 +27,31 @@ const todoApp = (() => {
 
   const menuIcon = document.querySelector("[data-burger-menu-icon]");
   const nav = document.querySelector("nav");
-  const todayTab = document.querySelector("[data-today-tab]");
-  const todayTabTitle = document.querySelector("[data-today-title]");
 
   // LOCAL STORAGE
 
   const LOCAL_STORAGE_PROJECTS_LISTS_KEY = "projects.list";
-  const LOCAL_STORAGE_TODAY_TAB_KEY = "today";
   const LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY = "project.selectedID";
 
   let selectedProjectID = localStorage.getItem(
     LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY
   );
 
-  let todayTasks = JSON.parse(
-    localStorage.getItem(LOCAL_STORAGE_TODAY_TAB_KEY)
-  ) || [Project("Today")];
-  let projects =
-    JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECTS_LISTS_KEY)) || [];
+  let projects = JSON.parse(
+    localStorage.getItem(LOCAL_STORAGE_PROJECTS_LISTS_KEY)
+  ) || [
+    {
+      id: "1728272822829",
+      name: "Today",
+      tasks: [],
+    },
+
+    {
+      id: "1728272822839",
+      name: "Projects",
+      tasks: [],
+    },
+  ];
 
   const saveLocalStorage = () => {
     localStorage.setItem(
@@ -54,11 +61,6 @@ const todoApp = (() => {
     localStorage.setItem(
       LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY,
       selectedProjectID
-    );
-
-    localStorage.setItem(
-      LOCAL_STORAGE_TODAY_TAB_KEY,
-      JSON.stringify(todayTasks)
     );
   };
 
@@ -188,7 +190,6 @@ const todoApp = (() => {
     clearElement(projectsTabsContainer);
     renderProjects();
     renderProjectInfo();
-    // renderTodayTab();
   };
 
   const renderProjects = () => {
@@ -228,6 +229,8 @@ const todoApp = (() => {
 
     if (selectedProjectID === null || currentProjectInfo === undefined) {
       projectsTasksDisplay.style.display = "none";
+      selectedProjectID = projects[0].id;
+      saveAndRender();
     } else {
       projectsTasksDisplay.style.display = "";
       projectTitle.textContent = currentProjectInfo.name;
@@ -293,6 +296,7 @@ const todoApp = (() => {
 
   const start = () => {
     renderUI();
+    saveAndRender();
   };
 
   return { start };
