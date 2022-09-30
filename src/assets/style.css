@@ -318,15 +318,23 @@ input:focus {
         margin: 0px;
         padding: 25px 0px 0px 20px;
         width: 200px;
-    }    .new-project-form-container {
+    }    
+    
+    .new-project-form-container {
         min-height: 100vh;
+        overflow: hidden;
+        border: 1px solid red;
     }
+
     .wrapper.collapse {
         transform: none;
     }
+
     .projects-tasks-display {
         min-width: 90%;
+       
     }
+
     .project-tasks-list {
         display: flex;
         flex-direction: column;
