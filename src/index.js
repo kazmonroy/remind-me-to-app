@@ -34,45 +34,7 @@ const todoApp = (() => {
   const nav = document.querySelector("nav");
   const homeIcon = document.querySelector("[data-home-icon]");
 
-<<<<<<< HEAD
-  // LOCAL STORAGE
-
-  const LOCAL_STORAGE_PROJECTS_LISTS_KEY = "projects.list";
-  const LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY = "project.selectedID";
-
-  let selectedProjectID = localStorage.getItem(
-    LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY
-  );
-
-  let projects = JSON.parse(
-    localStorage.getItem(LOCAL_STORAGE_PROJECTS_LISTS_KEY)
-  ) || [
-    {
-      id: "1728272822829",
-      name: "Today",
-      tasks: [],
-    },
-
-    {
-      id: "1728272822839",
-      name: "Grocerys",
-      tasks: [],
-    },
-  ];
-
-  const saveLocalStorage = () => {
-    localStorage.setItem(
-      LOCAL_STORAGE_PROJECTS_LISTS_KEY,
-      JSON.stringify(projects)
-    );
-    localStorage.setItem(
-      LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY,
-      selectedProjectID
-    );
-  };
-=======
   let selectedProjectID = getSelectedProjectID();
->>>>>>> develop
 
   // EVENT LISTENERS
 
