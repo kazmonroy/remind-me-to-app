@@ -1,5 +1,10 @@
 import "./assets/style.css";
 import { Project, Task } from "./modules/projects.js";
+import {
+  saveLocalStorage,
+  projects,
+  getSelectedProjectID,
+} from "./modules/local-storage.js";
 
 const todoApp = (() => {
   const newProjectForm = document.querySelector("[data-new-project-form]");
@@ -27,7 +32,9 @@ const todoApp = (() => {
 
   const menuIcon = document.querySelector("[data-burger-menu-icon]");
   const nav = document.querySelector("nav");
+  const homeIcon = document.querySelector("[data-home-icon]");
 
+<<<<<<< HEAD
   // LOCAL STORAGE
 
   const LOCAL_STORAGE_PROJECTS_LISTS_KEY = "projects.list";
@@ -63,6 +70,9 @@ const todoApp = (() => {
       selectedProjectID
     );
   };
+=======
+  let selectedProjectID = getSelectedProjectID();
+>>>>>>> develop
 
   // EVENT LISTENERS
 
@@ -81,6 +91,11 @@ const todoApp = (() => {
       selectedProjectID = e.target.dataset.projectId;
       saveAndRender();
     }
+  });
+
+  homeIcon.addEventListener("click", (e) => {
+    selectedProjectID = projects[0].id;
+    saveAndRender();
   });
 
   projectTasksContainer.addEventListener("click", (e) => {
@@ -106,7 +121,6 @@ const todoApp = (() => {
   });
 
   menuIcon.addEventListener("click", (e) => {
-    console.log("hi");
     nav.classList.toggle("collapse");
   });
 
@@ -229,6 +243,7 @@ const todoApp = (() => {
 
     if (selectedProjectID === null || currentProjectInfo === undefined) {
       projectsTasksDisplay.style.display = "none";
+
       selectedProjectID = projects[0].id;
       saveAndRender();
     } else {
@@ -296,7 +311,6 @@ const todoApp = (() => {
 
   const start = () => {
     renderUI();
-    saveAndRender();
   };
 
   return { start };
