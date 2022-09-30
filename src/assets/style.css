@@ -327,7 +327,11 @@ input:focus {
         width: 200px;
     }
 
-    .projects-tabs-container {
+    /* .projects-tabs-container {
+        min-height: 100vh;
+    } */
+
+    .new-project-form-container {
         min-height: 100vh;
     }
     .wrapper.collapse {
