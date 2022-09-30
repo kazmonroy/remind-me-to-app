@@ -323,7 +323,6 @@ input:focus {
     .new-project-form-container {
         min-height: 100vh;
         overflow: hidden;
-        border: 1px solid red;
     }
 
     .wrapper.collapse {
