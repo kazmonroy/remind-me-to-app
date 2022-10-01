@@ -142,7 +142,6 @@ nav>* {
     margin: 0;
     border: none;
     background-color: var(--nav-bg);
-    transform: scale(.7);
 }
 .wrapper {
     grid-area: wrapper;
@@ -167,6 +166,10 @@ form {
 form>* {
     margin: 0px 5px;
 }
+
+.new-task-form {
+    border-bottom: 1px solid var(--main);
+}
 input {
     border: none;
     font-size: 1.4rem;
@@ -182,6 +185,34 @@ input:focus {
     outline: none;
 }
 
+.hidden {
+    display: none;
+}
+
+.add-task {
+    cursor: pointer;
+    border: 1px solid var(--nav-bg-hover);
+    padding: 5px 10px;
+    border-radius: 5px;
+    /* background-color: var(--main); */
+    /* color: white; */
+    display: flex;
+    align-items: center;
+}
+
+.add-task .fa-plus {
+    margin-right: 8px;
+}
+
+.add-task:hover {
+    background-color: var(--main);
+    color: white;
+}
+
+.add-task:hover .fa-plus {
+    color: white;
+}
+
 /* PROJECTS TASKS SECTION */
 .submit-new-task {
     cursor: pointer;
@@ -193,8 +224,9 @@ input:focus {
     background-color: var(--nav-bg-hover);
     border-radius: 50%;
 }
+
 .fa-plus {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 100;
     background-color: none;
     pointer-events: none;
@@ -206,16 +238,24 @@ input:focus {
     background-color: white;
     cursor: pointer;
     margin: 0px 5px;
-}.task-btn > * {
+}
+
+.task-btn > * {
     pointer-events: none;
-    font-size: 1.2rem;
+    font-size: .9rem;
     color: var(--gray)
-}.project-tasks-list,
+}
+
+.project-tasks-list,
 .header-links {
     list-style: none;
-}.project-tasks-list {
+}
+
+.project-tasks-list {
     margin: 0px 12px;
-}/* Tasks */
+}
+
+/* Tasks */
 .task {
     display: flex;
     align-items: center;
@@ -330,7 +370,7 @@ input:focus {
     }
 
     .projects-tasks-display {
-        min-width: 90%;
+        min-width: 60%;
        
     }
 

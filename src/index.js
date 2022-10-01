@@ -79,12 +79,14 @@ const todoApp = (() => {
     deleteTask(e);
   });
 
-  deleteProjectBtn.addEventListener("click", (e) => {
-    projects = projects.filter((project) => project.id !== selectedProjectID);
-    selectedProjectID = null;
+  // deleteProjectBtn.addEventListener("click", (e) => {
+  //   const currentProject = findSelectedProject();
 
-    saveAndRender();
-  });
+  //   projects = projects.filter((project) => project.id !== selectedProjectID);
+  //   selectedProjectID = null;
+
+  //   saveAndRender();
+  // });
 
   deleteCompletedTasksBTn.addEventListener("click", (e) => {
     const currentProject = findSelectedProject();

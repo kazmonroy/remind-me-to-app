@@ -55,10 +55,8 @@
     <div class="wrapper" >
       <section class="projects-tasks-display" data-projects-tasks-display>
         <h1 data-project-name-title>Today</h1>
-        <form action="" class="new-task-form" data-new-task-form>
-          <button class="submit-new-task">
-            <i class="fa-solid fa-plus"></i>
-          </button>
+        <form action="" class="new-task-form"  data-new-task-form>
+          <input type="submit" id="task-form" class="hidden">
           <input type="text" name="todo" placeholder="Add task" data-task-name-input/>
         </form>
 
@@ -67,8 +65,10 @@
         </section>
 
       <div class="btn-container">
-        <button class="btn delete-btn" data-delete-project>Delete project</button>
+        <!-- <button class="btn delete-btn" data-delete-project>Delete project</button> -->
         <button class="btn delete-btn" data-delete-completed-tasks>Delete completed tasks</button>
+        <label for="task-form" class="add-task"> <i class="add-task-btn fa-solid fa-plus"></i> Add task</label>
+   
       </div>
       </section>
     </div>
