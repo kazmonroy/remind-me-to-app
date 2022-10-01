@@ -124,14 +124,22 @@ nav>* {
 .btn:hover {
     color: var(--main);
 }
+
 .btn-container {
     display: flex;
     justify-content: space-between;
 }
+
 .new-project-form-container {
     overflow: hidden;
     margin-left: 50px;
 }
+
+.project-form {
+    display: flex;
+    align-items: center;
+}
+
 .project-form,
 .project-name-input {
     background-color: var(--nav-bg);
@@ -179,7 +187,7 @@ input {
     cursor: pointer;
 }
 input::placeholder {
-    font-size: .8rem;
+    font-size: .7rem;
 }
 input:focus {
     outline: none;
