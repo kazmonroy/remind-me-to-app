@@ -38,6 +38,20 @@ const todoApp = (() => {
 
   // EVENT LISTENERS
 
+  menuIcon.addEventListener("click", (e) => {
+    nav.classList.toggle("collapse");
+  });
+
+  nav.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    if (e.target.classList.contains("projects-section")) {
+      nav.classList.remove("collapse");
+    } else if (e.target.tagName.toLowerCase() === "li") {
+      nav.classList.remove("collapse");
+    }
+  });
+
   newProjectForm.addEventListener("submit", (e) => {
     e.preventDefault();
     addNewProject(projectNameInput);
@@ -80,10 +94,6 @@ const todoApp = (() => {
     );
 
     saveAndRender();
-  });
-
-  menuIcon.addEventListener("click", (e) => {
-    nav.classList.toggle("collapse");
   });
 
   // FUNCTIONALITIES
