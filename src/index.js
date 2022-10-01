@@ -71,6 +71,10 @@ const todoApp = (() => {
 
   homeIcon.addEventListener("click", (e) => {
     selectedProjectID = projects[0].id;
+    if (nav.classList.contains("collapse")) {
+      nav.classList.remove("collapse");
+    }
+
     saveAndRender();
   });
 
