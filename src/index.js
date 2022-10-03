@@ -46,7 +46,7 @@ const todoApp = (() => {
       name: "Today",
       tasks: [
         {
-          id: "012",
+          id: "1728272822839",
           name: "Be awesome",
           isComplete: false,
         },
@@ -54,7 +54,7 @@ const todoApp = (() => {
     },
 
     {
-      id: "1728272822839",
+      id: "1728272822929",
       name: "Grocerys",
       tasks: [
         { id: "123", name: "Potatoes", isComplete: false },
@@ -280,12 +280,14 @@ const todoApp = (() => {
       const taskCheck = document.createElement("input");
       taskCheck.setAttribute("type", "checkbox");
       taskCheck.setAttribute("id", task.id);
+      taskCheck.classList.add("task-input");
       taskCheck.dataset.taskId = task.id;
       taskCheck.checked = task.isComplete;
 
       const taskContent = document.createElement("label");
       taskContent.setAttribute("for", task.id);
       taskContent.setAttribute("id", task.id);
+
       taskContent.textContent = task.name;
       taskContent.classList.add("task-text");
 
