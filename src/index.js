@@ -287,29 +287,24 @@ const todoApp = (() => {
       const taskContent = document.createElement("label");
       taskContent.setAttribute("for", task.id);
       taskContent.setAttribute("id", task.id);
-
       taskContent.textContent = task.name;
       taskContent.classList.add("task-text");
 
       const customCheckBox = document.createElement("span");
       customCheckBox.classList.add("custom-checkbox");
 
-      taskContent.appendChild(customCheckBox);
-
       const iconsContainer = document.createElement("div");
-
       iconsContainer.classList.add("task-icons-container");
 
       const deleteBtn = document.createElement("button");
-
       deleteBtn.classList.add("task-btn", "delete-task-btn");
       deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can "></i>';
 
       const editBtn = document.createElement("button");
-
       editBtn.classList.add("task-btn", "edit-task-btn");
       editBtn.innerHTML = '<i class="fa-regular fa-pen-to-square "></i>';
 
+      taskContent.appendChild(customCheckBox);
       iconsContainer.appendChild(deleteBtn);
       iconsContainer.appendChild(editBtn);
 
