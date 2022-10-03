@@ -18,7 +18,7 @@ body {
 }
 body {
     font-size: .9rem;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
     display: grid;
     overflow: hidden;
     grid-template-rows: auto 1fr;
@@ -197,13 +197,11 @@ input:focus {
     display: none;
 }
 
-.add-task {
+.add-task, .delete-project-btn {
     cursor: pointer;
     border: 1px solid var(--nav-bg-hover);
     padding: 5px 10px;
     border-radius: 5px;
-    /* background-color: var(--main); */
-    /* color: white; */
     display: flex;
     align-items: center;
 }
