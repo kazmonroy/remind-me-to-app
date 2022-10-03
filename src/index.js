@@ -119,6 +119,7 @@ const todoApp = (() => {
   projectTasksContainer.addEventListener("click", (e) => {
     checkTaskDone(e);
     deleteTask(e);
+    editTask(e);
   });
 
   deleteProjectBtn.addEventListener("click", (e) => {
@@ -191,6 +192,15 @@ const todoApp = (() => {
       saveAndRender();
     }
   };
+
+  const editTask = (e) => {
+    const editTask = e.target.classList.contains("edit-task-btn");
+    if (editTask) {
+      editTaskUI(e);
+    }
+  };
+
+  const editTaskUI = (e) => {};
 
   const deleteTaskUI = (e) => {
     e.target.parentElement.parentElement.remove();
