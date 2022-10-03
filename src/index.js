@@ -21,9 +21,6 @@ const todoApp = (() => {
   );
   const taskNameInput = newTaskForm.querySelector("[data-task-name-input]");
   const deleteProjectBtn = document.querySelector("[data-delete-project]");
-  const deleteCompletedTasksBtn = document.querySelector(
-    "[data-delete-completed-tasks]"
-  );
 
   const menuIcon = document.querySelector("[data-burger-menu-icon]");
   const nav = document.querySelector("nav");
@@ -119,7 +116,6 @@ const todoApp = (() => {
   projectTasksContainer.addEventListener("click", (e) => {
     checkTaskDone(e);
     deleteTask(e);
-    editTask(e);
   });
 
   deleteProjectBtn.addEventListener("click", (e) => {
@@ -129,18 +125,7 @@ const todoApp = (() => {
     saveAndRender();
   });
 
-  // deleteCompletedTasksBtn.addEventListener("click", (e) => {
-  //   const currentProject = findSelectedProject();
-  //   console.log(currentProject);
-
-  //   currentProject.tasks = currentProject.tasks.filter(
-  //     (task) => !task.isComplete
-  //   );
-
-  //   saveAndRender();
-  // });
-
-  // FUNCTIONALITIES
+  // FEATURES
 
   const addNewProject = (projectNameInput) => {
     const projectName = projectNameInput.value;
@@ -167,7 +152,6 @@ const todoApp = (() => {
     currentProject.tasks.push(newTask);
 
     saveAndRender();
-
     taskNameInput.value = "";
   };
 
@@ -179,7 +163,6 @@ const todoApp = (() => {
         (task) => task.id === e.target.id
       );
       selectedTask.isComplete = e.target.checked;
-
       saveAndRender();
     }
   };
@@ -192,15 +175,6 @@ const todoApp = (() => {
       saveAndRender();
     }
   };
-
-  const editTask = (e) => {
-    const editTask = e.target.classList.contains("edit-task-btn");
-    if (editTask) {
-      editTaskUI(e);
-    }
-  };
-
-  const editTaskUI = (e) => {};
 
   const deleteTaskUI = (e) => {
     e.target.parentElement.parentElement.remove();
@@ -295,7 +269,6 @@ const todoApp = (() => {
       taskCheck.checked = task.isComplete;
 
       const taskContent = document.createElement("label");
-      taskContent.setAttribute("type", "text");
       taskContent.setAttribute("for", task.id);
       taskContent.setAttribute("id", task.id);
       taskContent.textContent = task.name;
@@ -321,6 +294,7 @@ const todoApp = (() => {
 
       newTask.appendChild(taskCheck);
       newTask.appendChild(taskContent);
+
       newTask.appendChild(iconsContainer);
 
       return projectTasksContainer.appendChild(newTask);
