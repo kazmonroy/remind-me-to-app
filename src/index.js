@@ -295,6 +295,7 @@ const todoApp = (() => {
       taskCheck.checked = task.isComplete;
 
       const taskContent = document.createElement("label");
+      taskContent.setAttribute("type", "text");
       taskContent.setAttribute("for", task.id);
       taskContent.setAttribute("id", task.id);
       taskContent.textContent = task.name;
