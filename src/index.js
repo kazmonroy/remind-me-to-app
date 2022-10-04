@@ -133,6 +133,13 @@ const todoApp = (() => {
     checkTaskDone(e);
   });
 
+  deleteProjectBtn.addEventListener("click", (e) => {
+    projects = projects.filter((project) => project.id !== selectedProjectID);
+    selectedProjectID = null;
+
+    saveAndRender();
+  });
+
   // FEATURES
 
   const saveEditTask = (e, taskContainer, button, currentProject) => {
@@ -207,13 +214,6 @@ const todoApp = (() => {
       }
     });
   };
-
-  deleteProjectBtn.addEventListener("click", (e) => {
-    projects = projects.filter((project) => project.id !== selectedProjectID);
-    selectedProjectID = null;
-
-    saveAndRender();
-  });
 
   const addNewProject = (projectNameInput) => {
     const projectName = projectNameInput.value;
