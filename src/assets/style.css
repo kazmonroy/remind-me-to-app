@@ -278,6 +278,10 @@ input:focus {
     width: 50px;
 }
 
+.edit-task-input {
+    flex: 1;
+}
+
 .custom-checkbox {
     --size: 12px;
     position: absolute;

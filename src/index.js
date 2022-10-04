@@ -114,9 +114,97 @@ const todoApp = (() => {
   });
 
   projectTasksContainer.addEventListener("click", (e) => {
+    if (e.target.tagName.toLowerCase() === "button") {
+      const button = e.target;
+      const taskContainer = button.parentElement.parentElement;
+      const currentProject = projects.find(
+        (project) => project.id === selectedProjectID
+      );
+
+      if (button.classList.contains("delete-task-btn")) {
+        deleteTask(e);
+      } else if (button.classList.contains("edit-task-btn")) {
+        editTask(e, taskContainer, button);
+      } else if (button.classList.contains("save-edit-task-btn")) {
+        saveEditTask(e, taskContainer, button, currentProject);
+      }
+    }
+
     checkTaskDone(e);
-    deleteTask(e);
   });
+
+  // FEATURES
+
+  const saveEditTask = (e, taskContainer, button, currentProject) => {
+    const buttonsContainer = button.parentElement;
+    const input = taskContainer.firstChild;
+
+    currentProject.tasks.forEach((task) => {
+      const taskCheck = document.createElement("input");
+      taskCheck.setAttribute("type", "checkbox");
+      taskCheck.setAttribute("id", task.id);
+      taskCheck.classList.add("task-input");
+      taskCheck.dataset.taskId = task.id;
+      taskCheck.checked = task.isComplete;
+
+      const taskContent = document.createElement("label");
+      taskContent.setAttribute("for", task.id);
+      taskContent.setAttribute("id", task.id);
+      taskContent.classList.add("task-text");
+      taskContent.textContent = input.value;
+
+      const customCheckBox = document.createElement("span");
+      customCheckBox.classList.add("custom-checkbox");
+
+      taskContent.appendChild(customCheckBox);
+
+      input.remove();
+
+      taskContainer.insertBefore(taskCheck, buttonsContainer);
+      taskContainer.insertBefore(taskContent, buttonsContainer);
+
+      button.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+      button.classList.remove("save-edit-task-btn");
+      button.classList.add("edit-task-btn");
+
+      saveEditTaskLocalStorage(e);
+
+      saveAndRender();
+    });
+  };
+
+  const editTask = (e, taskContainer, button) => {
+    const input = taskContainer.firstChild;
+    const label = taskContainer.firstChild.nextElementSibling;
+
+    // new input
+    const editTaskInput = document.createElement("input");
+    editTaskInput.setAttribute("type", "text");
+    editTaskInput.setAttribute("class", "edit-task-input");
+    editTaskInput.value = label.textContent;
+
+    taskContainer.insertBefore(editTaskInput, input);
+    input.remove();
+    label.remove();
+
+    button.innerHTML = '<i class="fa-solid fa-check"></i>';
+    button.classList.remove("edit-task-btn");
+    button.classList.add("save-edit-task-btn");
+  };
+
+  const saveEditTaskLocalStorage = (e) => {
+    const taskContainer = e.target.parentElement.parentElement.children[1];
+
+    const currentProject = projects.find(
+      (project) => project.id === selectedProjectID
+    );
+
+    currentProject.tasks.forEach((task, index) => {
+      if (task.id === taskContainer.id) {
+        task.name = taskContainer.textContent;
+      }
+    });
+  };
 
   deleteProjectBtn.addEventListener("click", (e) => {
     projects = projects.filter((project) => project.id !== selectedProjectID);
@@ -124,8 +212,6 @@ const todoApp = (() => {
 
     saveAndRender();
   });
-
-  // FEATURES
 
   const addNewProject = (projectNameInput) => {
     const projectName = projectNameInput.value;
@@ -156,7 +242,7 @@ const todoApp = (() => {
   };
 
   const checkTaskDone = (e) => {
-    if (e.target.tagName.toLowerCase() === "input") {
+    if (e.target.hasAttribute("data-task-id")) {
       const currentProject = findSelectedProject();
 
       const selectedTask = currentProject.tasks.find(
@@ -168,12 +254,9 @@ const todoApp = (() => {
   };
 
   const deleteTask = (e) => {
-    const deleteBtn = e.target.classList.contains("delete-task-btn");
-    if (deleteBtn) {
-      deleteTaskUI(e);
-      deleteTaskLocalStorage(e);
-      saveAndRender();
-    }
+    deleteTaskUI(e);
+    deleteTaskLocalStorage(e);
+    saveAndRender();
   };
 
   const deleteTaskUI = (e) => {
@@ -286,7 +369,7 @@ const todoApp = (() => {
 
       const editBtn = document.createElement("button");
       editBtn.classList.add("task-btn", "edit-task-btn");
-      editBtn.innerHTML = '<i class="fa-regular fa-pen-to-square "></i>';
+      editBtn.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
 
       taskContent.appendChild(customCheckBox);
       iconsContainer.appendChild(deleteBtn);
