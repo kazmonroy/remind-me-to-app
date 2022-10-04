@@ -280,6 +280,7 @@ input:focus {
 
 .edit-task-input {
     flex: 1;
+    padding: 0;
 }
 
 .custom-checkbox {
