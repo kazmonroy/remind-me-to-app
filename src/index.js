@@ -176,6 +176,8 @@ const todoApp = (() => {
   const editTask = (e, taskContainer, button) => {
     const input = taskContainer.firstChild;
     const label = taskContainer.firstChild.nextElementSibling;
+    const deleteBtn = button.previousSibling;
+    deleteBtn.textContent = "";
 
     // new input
     const editTaskInput = document.createElement("input");
