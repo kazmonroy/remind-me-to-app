@@ -187,7 +187,9 @@ input {
     font-family: inherit;
     padding: 10px 0px;
     cursor: pointer;
+    flex: 1;
 }
+
 input::placeholder {
     font-size: .8rem;
 }

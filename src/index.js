@@ -1,35 +1,35 @@
-import "./assets/style.css";
-import { Project, Task } from "./modules/projects.js";
+import './assets/style.css';
+import { Project, Task } from './modules/projects.js';
 
 const todoApp = (() => {
-  const newProjectForm = document.querySelector("[data-new-project-form]");
+  const newProjectForm = document.querySelector('[data-new-project-form]');
   const projectNameInput = newProjectForm.querySelector(
-    "[data-project-name-input]"
+    '[data-project-name-input]'
   );
 
   const projectsTabsContainer = document.querySelector(
-    "[data-projects-tabs-container]"
+    '[data-projects-tabs-container]'
   );
 
   const projectsTasksDisplay = document.querySelector(
-    "[data-projects-tasks-display]"
+    '[data-projects-tasks-display]'
   );
-  const newTaskForm = document.querySelector("[data-new-task-form]");
-  const projectTitle = document.querySelector("[data-project-name-title]");
+  const newTaskForm = document.querySelector('[data-new-task-form]');
+  const projectTitle = document.querySelector('[data-project-name-title]');
   const projectTasksContainer = document.querySelector(
-    "[data-project-tasks-container]"
+    '[data-project-tasks-container]'
   );
-  const taskNameInput = newTaskForm.querySelector("[data-task-name-input]");
-  const deleteProjectBtn = document.querySelector("[data-delete-project]");
+  const taskNameInput = newTaskForm.querySelector('[data-task-name-input]');
+  const deleteProjectBtn = document.querySelector('[data-delete-project]');
 
-  const menuIcon = document.querySelector("[data-burger-menu-icon]");
-  const nav = document.querySelector("nav");
-  const homeIcon = document.querySelector("[data-home-icon]");
+  const menuIcon = document.querySelector('[data-burger-menu-icon]');
+  const nav = document.querySelector('nav');
+  const homeIcon = document.querySelector('[data-home-icon]');
 
   // LOCAL STORAGE
 
-  const LOCAL_STORAGE_PROJECTS_LISTS_KEY = "projects.list";
-  const LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY = "project.selectedID";
+  const LOCAL_STORAGE_PROJECTS_LISTS_KEY = 'projects.list';
+  const LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY = 'project.selectedID';
 
   let selectedProjectID = localStorage.getItem(
     LOCAL_STORAGE_SELECTED_PROJECT_ID_KEY
@@ -39,23 +39,23 @@ const todoApp = (() => {
     localStorage.getItem(LOCAL_STORAGE_PROJECTS_LISTS_KEY)
   ) || [
     {
-      id: "1728272822829",
-      name: "Today",
+      id: '1728272822829',
+      name: 'Today',
       tasks: [
         {
-          id: "1728272822839",
-          name: "Be awesome",
+          id: '1728272822839',
+          name: 'Be awesome',
           isComplete: false,
         },
       ],
     },
 
     {
-      id: "1728272822929",
-      name: "Grocerys",
+      id: '1728272822929',
+      name: 'Grocerys',
       tasks: [
-        { id: "123", name: "Potatoes", isComplete: false },
-        { id: "456", name: "Bananas", isComplete: true },
+        { id: '123', name: 'Potatoes', isComplete: false },
+        { id: '456', name: 'Bananas', isComplete: true },
       ],
     },
   ];
@@ -73,59 +73,59 @@ const todoApp = (() => {
 
   // EVENT LISTENERS
 
-  menuIcon.addEventListener("click", (e) => {
-    nav.classList.toggle("collapse");
+  menuIcon.addEventListener('click', (e) => {
+    nav.classList.toggle('collapse');
   });
 
-  nav.addEventListener("click", (e) => {
+  nav.addEventListener('click', (e) => {
     e.stopPropagation();
 
-    if (e.target.classList.contains("projects-section")) {
-      nav.classList.remove("collapse");
-    } else if (e.target.tagName.toLowerCase() === "li") {
-      nav.classList.remove("collapse");
+    if (e.target.classList.contains('projects-section')) {
+      nav.classList.remove('collapse');
+    } else if (e.target.tagName.toLowerCase() === 'li') {
+      nav.classList.remove('collapse');
     }
   });
 
-  newProjectForm.addEventListener("submit", (e) => {
+  newProjectForm.addEventListener('submit', (e) => {
     e.preventDefault();
     addNewProject(projectNameInput);
   });
 
-  newTaskForm.addEventListener("submit", (e) => {
+  newTaskForm.addEventListener('submit', (e) => {
     e.preventDefault();
     addNewTask(taskNameInput);
   });
 
-  projectsTabsContainer.addEventListener("click", (e) => {
-    if (e.target.tagName.toLowerCase() === "li") {
+  projectsTabsContainer.addEventListener('click', (e) => {
+    if (e.target.tagName.toLowerCase() === 'li') {
       selectedProjectID = e.target.dataset.projectId;
       saveAndRender();
     }
   });
 
-  homeIcon.addEventListener("click", (e) => {
+  homeIcon.addEventListener('click', (e) => {
     selectedProjectID = projects[0].id;
-    if (nav.classList.contains("collapse")) {
-      nav.classList.remove("collapse");
+    if (nav.classList.contains('collapse')) {
+      nav.classList.remove('collapse');
     }
 
     saveAndRender();
   });
 
-  projectTasksContainer.addEventListener("click", (e) => {
-    if (e.target.tagName.toLowerCase() === "button") {
+  projectTasksContainer.addEventListener('click', (e) => {
+    if (e.target.tagName.toLowerCase() === 'button') {
       const button = e.target;
       const taskContainer = button.parentElement.parentElement;
       const currentProject = projects.find(
         (project) => project.id === selectedProjectID
       );
 
-      if (button.classList.contains("delete-task-btn")) {
+      if (button.classList.contains('delete-task-btn')) {
         deleteTask(e);
-      } else if (button.classList.contains("edit-task-btn")) {
+      } else if (button.classList.contains('edit-task-btn')) {
         editTask(e, taskContainer, button);
-      } else if (button.classList.contains("save-edit-task-btn")) {
+      } else if (button.classList.contains('save-edit-task-btn')) {
         saveEditTask(e, taskContainer, button, currentProject);
       }
     }
@@ -133,7 +133,7 @@ const todoApp = (() => {
     checkTaskDone(e);
   });
 
-  deleteProjectBtn.addEventListener("click", (e) => {
+  deleteProjectBtn.addEventListener('click', (e) => {
     projects = projects.filter((project) => project.id !== selectedProjectID);
     selectedProjectID = null;
 
@@ -142,41 +142,81 @@ const todoApp = (() => {
 
   // FEATURES
 
+  // const saveEditTask = (e, taskContainer, button, currentProject) => {
+  //   const buttonsContainer = button.parentElement;
+  //   const input = taskContainer.firstChild;
+
+  //   currentProject.tasks.forEach((task) => {
+  //     const taskCheck = document.createElement("input");
+  //     taskCheck.setAttribute("type", "checkbox");
+  //     taskCheck.setAttribute("id", task.id);
+  //     taskCheck.classList.add("task-input");
+  //     taskCheck.dataset.taskId = task.id;
+  //     taskCheck.checked = task.isComplete;
+
+  //     const taskContent = document.createElement("label");
+  //     taskContent.setAttribute("for", task.id);
+  //     taskContent.setAttribute("id", task.id);
+  //     taskContent.classList.add("task-text");
+  //     taskContent.textContent = input.value;
+
+  //     const customCheckBox = document.createElement("span");
+  //     customCheckBox.classList.add("custom-checkbox");
+
+  //     taskContent.appendChild(customCheckBox);
+
+  //     input.remove();
+
+  //     taskContainer.insertBefore(taskCheck, buttonsContainer);
+  //     taskContainer.insertBefore(taskContent, buttonsContainer);
+
+  //     button.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+  //     button.classList.remove("save-edit-task-btn");
+  //     button.classList.add("edit-task-btn");
+
+  //     saveEditTaskLocalStorage(e);
+
+  //     saveAndRender();
+  //   });
+  // };
+
   const saveEditTask = (e, taskContainer, button, currentProject) => {
     const buttonsContainer = button.parentElement;
     const input = taskContainer.firstChild;
 
+    const taskCheck = document.createElement('input');
+    taskCheck.setAttribute('type', 'checkbox');
+    taskCheck.setAttribute('id', input.id);
+    taskCheck.classList.add('task-input');
+    taskCheck.dataset.taskId = input.id;
+    taskCheck.checked = input.isComplete;
+
+    const taskContent = document.createElement('label');
+    taskContent.setAttribute('for', input.id);
+    taskContent.setAttribute('id', input.id);
+    taskContent.classList.add('task-text');
+    taskContent.textContent = input.value;
+
+    const customCheckBox = document.createElement('span');
+    customCheckBox.classList.add('custom-checkbox');
+
+    taskContent.appendChild(customCheckBox);
+
+    input.remove();
+
+    taskContainer.insertBefore(taskCheck, buttonsContainer);
+    taskContainer.insertBefore(taskContent, buttonsContainer);
+
+    button.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
+    button.classList.remove('save-edit-task-btn');
+    button.classList.add('edit-task-btn');
+
     currentProject.tasks.forEach((task) => {
-      const taskCheck = document.createElement("input");
-      taskCheck.setAttribute("type", "checkbox");
-      taskCheck.setAttribute("id", task.id);
-      taskCheck.classList.add("task-input");
-      taskCheck.dataset.taskId = task.id;
-      taskCheck.checked = task.isComplete;
+      if (task.id === input.id) {
+        task.name = input.value;
 
-      const taskContent = document.createElement("label");
-      taskContent.setAttribute("for", task.id);
-      taskContent.setAttribute("id", task.id);
-      taskContent.classList.add("task-text");
-      taskContent.textContent = input.value;
-
-      const customCheckBox = document.createElement("span");
-      customCheckBox.classList.add("custom-checkbox");
-
-      taskContent.appendChild(customCheckBox);
-
-      input.remove();
-
-      taskContainer.insertBefore(taskCheck, buttonsContainer);
-      taskContainer.insertBefore(taskContent, buttonsContainer);
-
-      button.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
-      button.classList.remove("save-edit-task-btn");
-      button.classList.add("edit-task-btn");
-
-      saveEditTaskLocalStorage(e);
-
-      saveAndRender();
+        saveAndRender();
+      }
     });
   };
 
@@ -184,21 +224,22 @@ const todoApp = (() => {
     const input = taskContainer.firstChild;
     const label = taskContainer.firstChild.nextElementSibling;
     const deleteBtn = button.previousSibling;
-    deleteBtn.textContent = "";
+    deleteBtn.textContent = '';
 
     // new input
-    const editTaskInput = document.createElement("input");
-    editTaskInput.setAttribute("type", "text");
-    editTaskInput.setAttribute("class", "edit-task-input");
+    const editTaskInput = document.createElement('input');
+    editTaskInput.setAttribute('type', 'text');
+    editTaskInput.setAttribute('class', 'edit-task-input');
     editTaskInput.value = label.textContent;
+    editTaskInput.id = label.id;
 
     taskContainer.insertBefore(editTaskInput, input);
     input.remove();
     label.remove();
 
     button.innerHTML = '<i class="fa-solid fa-check"></i>';
-    button.classList.remove("edit-task-btn");
-    button.classList.add("save-edit-task-btn");
+    button.classList.remove('edit-task-btn');
+    button.classList.add('save-edit-task-btn');
   };
 
   const saveEditTaskLocalStorage = (e) => {
@@ -218,18 +259,18 @@ const todoApp = (() => {
   const addNewProject = (projectNameInput) => {
     const projectName = projectNameInput.value;
 
-    if (projectName === null || projectName === "") return;
+    if (projectName === null || projectName === '') return;
 
     const newProject = Project(projectName);
     projects.push(newProject);
     saveAndRender();
 
-    projectNameInput.value = "";
+    projectNameInput.value = '';
   };
 
   const addNewTask = (taskNameInput) => {
     const taskName = taskNameInput.value;
-    if (taskName === null || taskName === "") return;
+    if (taskName === null || taskName === '') return;
 
     const newTask = Task(taskName);
 
@@ -240,11 +281,11 @@ const todoApp = (() => {
     currentProject.tasks.push(newTask);
 
     saveAndRender();
-    taskNameInput.value = "";
+    taskNameInput.value = '';
   };
 
   const checkTaskDone = (e) => {
-    if (e.target.hasAttribute("data-task-id")) {
+    if (e.target.hasAttribute('data-task-id')) {
       const currentProject = findSelectedProject();
 
       const selectedTask = currentProject.tasks.find(
@@ -292,20 +333,20 @@ const todoApp = (() => {
 
   const renderProjects = () => {
     projects.forEach((project) => {
-      const newTabProject = document.createElement("li");
-      newTabProject.classList.add("nav-tab");
-      newTabProject.setAttribute("id", project.id);
+      const newTabProject = document.createElement('li');
+      newTabProject.classList.add('nav-tab');
+      newTabProject.setAttribute('id', project.id);
       newTabProject.dataset.projectId = project.id;
 
       if (newTabProject.dataset.projectId === selectedProjectID) {
-        newTabProject.classList.add("active");
+        newTabProject.classList.add('active');
       }
 
-      const iconProject = document.createElement("div");
-      iconProject.classList.add("icon-project");
+      const iconProject = document.createElement('div');
+      iconProject.classList.add('icon-project');
       iconProject.innerHTML = '<i class="fa-solid fa-circle nav-icon"></i>';
 
-      const projectName = document.createElement("p");
+      const projectName = document.createElement('p');
       projectName.textContent = project.name;
 
       newTabProject.appendChild(iconProject);
@@ -327,12 +368,12 @@ const todoApp = (() => {
     const currentProjectInfo = findSelectedProject();
 
     if (selectedProjectID === null || currentProjectInfo === undefined) {
-      projectsTasksDisplay.style.display = "none";
+      projectsTasksDisplay.style.display = 'none';
       selectedProjectID = projects[0].id;
 
       saveAndRender();
     } else {
-      projectsTasksDisplay.style.display = "";
+      projectsTasksDisplay.style.display = '';
       projectTitle.textContent = currentProjectInfo.name;
       clearElement(projectTasksContainer);
       renderTasks();
@@ -343,34 +384,34 @@ const todoApp = (() => {
     const currentProjectInfo = findSelectedProject();
 
     currentProjectInfo.tasks.forEach((task) => {
-      const newTask = document.createElement("li");
-      newTask.classList.add("task");
+      const newTask = document.createElement('li');
+      newTask.classList.add('task');
 
-      const taskCheck = document.createElement("input");
-      taskCheck.setAttribute("type", "checkbox");
-      taskCheck.setAttribute("id", task.id);
-      taskCheck.classList.add("task-input");
+      const taskCheck = document.createElement('input');
+      taskCheck.setAttribute('type', 'checkbox');
+      taskCheck.setAttribute('id', task.id);
+      taskCheck.classList.add('task-input');
       taskCheck.dataset.taskId = task.id;
       taskCheck.checked = task.isComplete;
 
-      const taskContent = document.createElement("label");
-      taskContent.setAttribute("for", task.id);
-      taskContent.setAttribute("id", task.id);
+      const taskContent = document.createElement('label');
+      taskContent.setAttribute('for', task.id);
+      taskContent.setAttribute('id', task.id);
       taskContent.textContent = task.name;
-      taskContent.classList.add("task-text");
+      taskContent.classList.add('task-text');
 
-      const customCheckBox = document.createElement("span");
-      customCheckBox.classList.add("custom-checkbox");
+      const customCheckBox = document.createElement('span');
+      customCheckBox.classList.add('custom-checkbox');
 
-      const iconsContainer = document.createElement("div");
-      iconsContainer.classList.add("task-icons-container");
+      const iconsContainer = document.createElement('div');
+      iconsContainer.classList.add('task-icons-container');
 
-      const deleteBtn = document.createElement("button");
-      deleteBtn.classList.add("task-btn", "delete-task-btn");
+      const deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('task-btn', 'delete-task-btn');
       deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can "></i>';
 
-      const editBtn = document.createElement("button");
-      editBtn.classList.add("task-btn", "edit-task-btn");
+      const editBtn = document.createElement('button');
+      editBtn.classList.add('task-btn', 'edit-task-btn');
       editBtn.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
 
       taskContent.appendChild(customCheckBox);
