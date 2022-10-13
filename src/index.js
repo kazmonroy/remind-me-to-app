@@ -142,44 +142,6 @@ const todoApp = (() => {
 
   // FEATURES
 
-  // const saveEditTask = (e, taskContainer, button, currentProject) => {
-  //   const buttonsContainer = button.parentElement;
-  //   const input = taskContainer.firstChild;
-
-  //   currentProject.tasks.forEach((task) => {
-  //     const taskCheck = document.createElement("input");
-  //     taskCheck.setAttribute("type", "checkbox");
-  //     taskCheck.setAttribute("id", task.id);
-  //     taskCheck.classList.add("task-input");
-  //     taskCheck.dataset.taskId = task.id;
-  //     taskCheck.checked = task.isComplete;
-
-  //     const taskContent = document.createElement("label");
-  //     taskContent.setAttribute("for", task.id);
-  //     taskContent.setAttribute("id", task.id);
-  //     taskContent.classList.add("task-text");
-  //     taskContent.textContent = input.value;
-
-  //     const customCheckBox = document.createElement("span");
-  //     customCheckBox.classList.add("custom-checkbox");
-
-  //     taskContent.appendChild(customCheckBox);
-
-  //     input.remove();
-
-  //     taskContainer.insertBefore(taskCheck, buttonsContainer);
-  //     taskContainer.insertBefore(taskContent, buttonsContainer);
-
-  //     button.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
-  //     button.classList.remove("save-edit-task-btn");
-  //     button.classList.add("edit-task-btn");
-
-  //     saveEditTaskLocalStorage(e);
-
-  //     saveAndRender();
-  //   });
-  // };
-
   const saveEditTask = (e, taskContainer, button, currentProject) => {
     const buttonsContainer = button.parentElement;
     const input = taskContainer.firstChild;
@@ -237,7 +199,7 @@ const todoApp = (() => {
     input.remove();
     label.remove();
 
-    button.innerHTML = '<i class="fa-solid fa-check"></i>';
+    button.innerHTML = 'Save <i class="fa-solid fa-check"></i>';
     button.classList.remove('edit-task-btn');
     button.classList.add('save-edit-task-btn');
   };
